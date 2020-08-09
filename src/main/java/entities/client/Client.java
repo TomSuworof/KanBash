@@ -1,7 +1,7 @@
 package entities.client;
 
-import entities.Printer;
-import entities.Writer;
+import entities.helpers.Printer;
+import entities.helpers.Writer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

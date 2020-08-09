@@ -1,4 +1,4 @@
-package entities;
+package entities.content;
 
 public class Task {
     private String text;
