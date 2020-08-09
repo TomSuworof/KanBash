@@ -8,3 +8,5 @@ out/
 log/
 target/
 lib/
+
+content.json
