@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 
 public class Client {
     public void work() {
+        System.out.println(Printer.WelcomePage);
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             new Printer().print();
             String input = bufferedReader.readLine().trim();
@@ -46,7 +47,8 @@ public class Client {
                                 "- new + 'message'\n" +
                                 "- pick + 'index'\n" +
                                 "- done + 'index'\n" +
-                                "- clear + 'name_of_column' or 'all'"
+                                "- clear + 'name_of_column' or 'all'\n" +
+                                "- exit - for exit"
                         );
                 }
                 writer.updateBase();
