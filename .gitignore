@@ -9,4 +9,4 @@ log/
 target/
 lib/
 
-#src/main/resources/content.json
+src/main/resources/content.json
