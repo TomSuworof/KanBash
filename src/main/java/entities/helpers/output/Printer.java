@@ -1,13 +1,9 @@
 package entities.helpers.output;
 
-import com.google.gson.Gson;
-import entities.content.Content;
+import entities.content.ContentAdapter;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Printer {
 
@@ -23,40 +19,31 @@ public class Printer {
             "MAKE YOUR PRODUCTIVITY GREAT AGAIN\n";
 
     private static final String delimiter = "----------------------------------------"; // 40 symbols
-    Content content;
 
-    public Printer() {
-        try (FileReader fileReader = new FileReader("src\\main\\resources\\content.json")) {
-            content = new Gson().fromJson(fileReader, Content.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void print() {
+    public static void print() {
         printSimple();
 //        printWithFormat();
     }
 
-    private void printSimple() {
+    private static void printSimple() {
         System.out.println("SHOULD DO");
-        content.getShouldDo().forEach(System.out::println);
+        ContentAdapter.getShouldDo().forEach(System.out::println);
         System.out.println(delimiter);
 
         System.out.println("IN PROGRESS");
-        content.getInProgress().forEach(System.out::println);
+        ContentAdapter.getInProgress().forEach(System.out::println);
         System.out.println(delimiter);
 
         System.out.println("DONE");
-        content.getDone().forEach(System.out::println);
+        ContentAdapter.getDone().forEach(System.out::println);
         System.out.println(delimiter);
 
     }
 
     private void printWithFormat() {
-        ArrayList<String> shouldDoForOutput   = Formatter.format(content.getShouldDo());
-        ArrayList<String> inProgressForOutput = Formatter.format(content.getInProgress());
-        ArrayList<String> doneForOutput       = Formatter.format(content.getDone());
+        ArrayList<String> shouldDoForOutput   = Formatter.format(ContentAdapter.getShouldDo());
+        ArrayList<String> inProgressForOutput = Formatter.format(ContentAdapter.getInProgress());
+        ArrayList<String> doneForOutput       = Formatter.format(ContentAdapter.getDone());
 
         String shouldDoHeading   = "----------------SHOULD-DO---------------";
         String inProgressHeading = "---------------IN-PROGRESS--------------";

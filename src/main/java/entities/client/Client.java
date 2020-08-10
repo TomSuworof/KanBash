@@ -11,7 +11,7 @@ public class Client {
     public void work() {
         System.out.println(Printer.WelcomePage);
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-            new Printer().print();
+            Printer.print();
             String input = bufferedReader.readLine().trim();
             /*
             here we have N base commands:
@@ -26,21 +26,18 @@ public class Client {
                 String message = input.substring(command.length()).trim();
 //                System.err.println("Command:" + command);
 //                System.out.println("Message: " + message);
-
-                Writer writer = new Writer();
-
                 switch (command) {
                     case "new":
-                        writer.newTask(message);
+                        Writer.newTask(message);
                         break;
                     case "pick":
-                        writer.pick(Integer.parseInt(message));
+                        Writer.pick(Integer.parseInt(message));
                         break;
                     case "done":
-                        writer.done(Integer.parseInt(message));
+                        Writer.done(Integer.parseInt(message));
                         break;
                     case "clear":
-                        writer.clear(message);
+                        Writer.clear(message);
                         break;
                     default:
                         System.err.println(
@@ -53,8 +50,7 @@ public class Client {
                                 "- exit - for exit"
                         );
                 }
-                writer.updateBase();
-                new Printer().print();
+                Printer.print();
                 input = bufferedReader.readLine();
             }
         } catch (IOException ioe) {
