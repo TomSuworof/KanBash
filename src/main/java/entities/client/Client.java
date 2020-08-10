@@ -11,8 +11,6 @@ public class Client {
     public void work() {
         System.out.println(Printer.WelcomePage);
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-            Printer.print();
-            String input = bufferedReader.readLine().trim();
             /*
             here we have N base commands:
             - new - new task - new task for column 'shouldDo'
@@ -21,7 +19,10 @@ public class Client {
             - clear - for clear all columns
             - exit - for exit
              */
-            while (!input.equals("exit")) {
+            String input;
+            do {
+                Printer.print();
+                input = bufferedReader.readLine().trim();
                 String command = input.split(" ")[0];
                 String message = input.substring(command.length()).trim();
 //                System.err.println("Command:" + command);
@@ -39,20 +40,20 @@ public class Client {
                     case "clear":
                         Writer.clear(message);
                         break;
+                    case "exit":
+                        break;
                     default:
-                        System.err.println(
+                        System.out.println(
                                 "I do not know this command\n" +
-                                "Please use these commands:\n" +
-                                "- new + 'message'\n" +
-                                "- pick + 'index'\n" +
-                                "- done + 'index'\n" +
-                                "- clear + 'name_of_column' or 'all'\n" +
-                                "- exit - for exit"
+                                 "Please use these commands:\n" +
+                                 "- new + 'message'\n" +
+                                 "- pick + 'index'\n" +
+                                 "- done + 'index'\n" +
+                                 "- clear + 'name_of_column' or 'all'\n" +
+                                 "- exit - for exit"
                         );
                 }
-                Printer.print();
-                input = bufferedReader.readLine();
-            }
+            } while (!input.equals("exit"));
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
