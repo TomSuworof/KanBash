@@ -1,7 +1,7 @@
 package entities.client;
 
-import entities.helpers.Printer;
-import entities.helpers.Writer;
+import entities.helpers.output.Printer;
+import entities.helpers.input.Writer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +18,8 @@ public class Client {
             - new - new task - new task for column 'shouldDo'
             - pick - task from 'shouldDo' will go to 'inProgress'
             - done - task from 'inProgress' will go to 'done'
+            - clear - for clear all columns
+            - exit - for exit
              */
             while (!input.equals("exit")) {
                 String command = input.split(" ")[0];

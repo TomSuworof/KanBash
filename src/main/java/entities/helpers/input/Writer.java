@@ -1,4 +1,4 @@
-package entities.helpers;
+package entities.helpers.input;
 
 import com.google.gson.Gson;
 import entities.content.Content;

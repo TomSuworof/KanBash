@@ -7,7 +7,6 @@ public final class Content {
     private ArrayList<String> inProgress;
     private ArrayList<String> done;
 
-
     public ArrayList<String> getShouldDo() {
         return shouldDo;
     }
@@ -19,7 +18,7 @@ public final class Content {
     }
 
     public void addShouldDo(String message) {
-        shouldDo.add(message);
+        shouldDo.add("- " + message);
     }
     public void moveShouldDoToInProgress(int index) {
         inProgress.add(0, shouldDo.get(index));
