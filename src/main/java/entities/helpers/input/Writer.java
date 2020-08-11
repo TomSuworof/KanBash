@@ -8,14 +8,26 @@ public class Writer {
         ContentAdapter.addShouldDo(message);
     }
 
-    public static void pick(int index) {
+    public static void pick(String message) {
         // move i'th task to 'inProgress'
-        ContentAdapter.moveShouldDoToInProgress(index);
+        try {
+            ContentAdapter.moveShouldDoToInProgress(Integer.parseInt(message));
+        } catch (IndexOutOfBoundsException indexEx) {
+            System.out.println("ERROR. You do not have so much tasks in SHOULD DO");
+        } catch (NumberFormatException numberEx) {
+            System.out.println("ERROR. It was not a number");
+        }
     }
 
-    public static void done(int index) {
+    public static void done(String message) {
         // move i'th task tp 'done'
-        ContentAdapter.moveInProgressToDone(index);
+        try {
+            ContentAdapter.moveInProgressToDone(Integer.parseInt(message));
+        } catch (IndexOutOfBoundsException indexEx) {
+            System.out.println("ERROR. You do not have so much tasks in IN PROGRESS");
+        }catch (NumberFormatException numberEx) {
+            System.out.println("ERROR. It was not a number");
+        }
     }
 
     public static void clear(String message) {
