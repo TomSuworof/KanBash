@@ -6,5 +6,6 @@ We have 3 columns: SHOULD DO, IN PROGRESS and DONE
 - pick 'index' - pick I'th command from SHOULD DO and move it to IN PROGRESS
 - done 'index' - pick one task from IN PROGRESS and move it to DONE
 - clear 'something' - allows to clear certain column or all
+- remove 'something' 'index' - allows to remove certain element from certain column
 - exit - for exit
 # MAKE YOUR PRODUCTIVITY GREAT AGAIN
