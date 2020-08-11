@@ -8,21 +8,26 @@ public class Formatter {
 
         for (String task : tasks) {
             String[] words = task.split(" ");
-//            for (String word : words) {
-//                System.out.println(word);
-//            }
-            String line = "";
+            StringBuilder line = new StringBuilder();
             for (String word : words) {
-                if (line.length() < 40) {
-                    line += " ";
-                }
                 if ((line + word).length() <= 40) {
-                    line += word;
+                    line.append(word);
                 } else {
-                   taskLines.add(line);
-                   line = " " + word;
+                    while (line.length() < 40) {
+                        line.append(" ");
+                    }
+                    taskLines.add(line.toString());
+                    line = new StringBuilder(word + " ");
+                    continue;
+                }
+                if (line.length() < 40) {
+                    line.append(" ");
                 }
             }
+            while(line.length() < 40) {
+                line.append(" ");
+            }
+            taskLines.add(line.toString());
         }
 
         return taskLines;

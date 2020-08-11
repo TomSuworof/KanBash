@@ -11,22 +11,12 @@ public class Client {
     public void work() {
         System.out.println(Printer.WelcomePage);
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-            /*
-            here we have N base commands:
-            - new - new task - new task for column 'shouldDo'
-            - pick - task from 'shouldDo' will go to 'inProgress'
-            - done - task from 'inProgress' will go to 'done'
-            - clear - for clear all columns
-            - exit - for exit
-             */
             String input;
             do {
                 Printer.print();
                 input = bufferedReader.readLine().trim();
                 String command = input.split(" ")[0];
                 String message = input.substring(command.length()).trim();
-//                System.err.println("Command:" + command);
-//                System.out.println("Message: " + message);
                 switch (command) {
                     case "new":
                         Writer.newTask(message);

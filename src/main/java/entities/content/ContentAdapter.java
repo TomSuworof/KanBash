@@ -18,10 +18,11 @@ public class ContentAdapter {
         private ArrayList<String> done;
     }
 
+    private static final String fileName = "src\\main\\resources\\contentMy.json";
     private static Content content;
 
     private static Content getContent() {
-        try (FileReader fileReader = new FileReader("src\\main\\resources\\content.json")) {
+        try (FileReader fileReader = new FileReader(fileName)) {
             content = new Gson().fromJson(fileReader, Content.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,15 +48,23 @@ public class ContentAdapter {
     }
     public static void moveShouldDoToInProgress(int index) {
         content = getContent();
-        content.inProgress.add(0, content.shouldDo.get(index));
-        content.shouldDo.remove(index);
-        update();
+        if (index < content.shouldDo.size()) {
+            content.inProgress.add(0, content.shouldDo.get(index));
+            content.shouldDo.remove(index);
+            update();
+        } else {
+            System.out.println("ERROR. You do not have so much tasks in SHOULD DO");
+        }
     }
     public static void moveInProgressToDone(int index) {
         content = getContent();
-        content.done.add(0, content.inProgress.get(index));
-        content.inProgress.remove(index);
-        update();
+        if (index < content.inProgress.size()) {
+            content.done.add(0, content.inProgress.get(index));
+            content.inProgress.remove(index);
+            update();
+        } else {
+            System.out.println("ERROR. You do not have so much tasks in IN PROGRESS");
+        }
     }
     public static void removeSomething(String nameOfColumn) {
         content = getContent();
@@ -81,7 +90,7 @@ public class ContentAdapter {
 
     private static void update() {
         String jsonString = new Gson().toJson(content);
-        try (FileWriter fileWriter = new FileWriter("src\\main\\resources\\content.json", false)) {
+        try (FileWriter fileWriter = new FileWriter(fileName, false)) {
             fileWriter.write(jsonString);
         } catch (IOException e) {
             e.printStackTrace();

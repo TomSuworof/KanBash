@@ -21,8 +21,8 @@ public class Printer {
     private static final String delimiter = "----------------------------------------"; // 40 symbols
 
     public static void print() {
-        printSimple();
-//        printWithFormat();
+//        printSimple();
+        printWithFormat();
     }
 
     private static void printSimple() {
@@ -40,7 +40,7 @@ public class Printer {
 
     }
 
-    private void printWithFormat() {
+    private static void printWithFormat() {
         ArrayList<String> shouldDoForOutput   = Formatter.format(ContentAdapter.getShouldDo());
         ArrayList<String> inProgressForOutput = Formatter.format(ContentAdapter.getInProgress());
         ArrayList<String> doneForOutput       = Formatter.format(ContentAdapter.getDone());
@@ -59,17 +59,24 @@ public class Printer {
         };
         Arrays.sort(limits);
 
-//        for (int i = 0; i < limits[2]; i++) {
-//            System.out.println(
-//                    (shouldDoForOutput.get(i)   == null ? space : shouldDoForOutput.get(i))   + "|" +
-//                    (inProgressForOutput.get(i) == null ? space : inProgressForOutput.get(i)) + "|" +
-//                    (doneForOutput.get(i)       == null ? space : doneForOutput.get(i))
-//            );
-//        }
-
-//        for (String line : shouldDoForOutput) {
-//            System.out.println(line);
-//        }
-
+        for (int i = 0; i < limits[2]; i++) {
+            try {
+                System.out.print(shouldDoForOutput.get(i));
+            } catch (IndexOutOfBoundsException index0) {
+                System.out.print(space);
+            }
+            System.out.print("|");
+            try {
+                System.out.print(inProgressForOutput.get(i));
+            } catch (IndexOutOfBoundsException index1) {
+                System.out.print(space);
+            }
+            System.out.print("|");
+            try {
+                System.out.println(doneForOutput.get(i));
+            } catch (IndexOutOfBoundsException index2) {
+                System.out.println(space);
+            }
+        }
     }
 }
