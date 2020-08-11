@@ -22,10 +22,10 @@ public class Client {
                         Writer.newTask(message);
                         break;
                     case "pick":
-                        Writer.pick(Integer.parseInt(message));
+                        Writer.pick(message);
                         break;
                     case "done":
-                        Writer.done(Integer.parseInt(message));
+                        Writer.done(message);
                         break;
                     case "clear":
                         Writer.clear(message);

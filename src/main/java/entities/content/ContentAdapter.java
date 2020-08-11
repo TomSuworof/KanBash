@@ -46,25 +46,17 @@ public class ContentAdapter {
         content.shouldDo.add("- " + message);
         update();
     }
-    public static void moveShouldDoToInProgress(int index) {
+    public static void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException{
         content = getContent();
-        if (index < content.shouldDo.size()) {
-            content.inProgress.add(0, content.shouldDo.get(index));
-            content.shouldDo.remove(index);
-            update();
-        } else {
-            System.out.println("ERROR. You do not have so much tasks in SHOULD DO");
-        }
+        content.inProgress.add(0, content.shouldDo.get(index));
+        content.shouldDo.remove(index);
+        update();
     }
-    public static void moveInProgressToDone(int index) {
+    public static void moveInProgressToDone(int index) throws IndexOutOfBoundsException {
         content = getContent();
-        if (index < content.inProgress.size()) {
-            content.done.add(0, content.inProgress.get(index));
-            content.inProgress.remove(index);
-            update();
-        } else {
-            System.out.println("ERROR. You do not have so much tasks in IN PROGRESS");
-        }
+        content.done.add(0, content.inProgress.get(index));
+        content.inProgress.remove(index);
+        update();
     }
     public static void clearSomething(String message) {
         content = getContent();
