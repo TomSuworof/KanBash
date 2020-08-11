@@ -15,7 +15,8 @@ public class Printer {
             "- pick 'index' - pick I'th command from SHOULD DO and move it to IN PROGRESS\n" +
             "- done 'index' - pick one task from IN PROGRESS and move it to DONE\n" +
             "- clear 'something' - allows to clear certain column or all\n" +
-            "- exit - for exit" +
+            "- remove 'something' 'index' - allows to remove certain element from column\n" +
+            "- exit - for exit\n" +
             "MAKE YOUR PRODUCTIVITY GREAT AGAIN\n";
 
     private static final String delimiter = "----------------------------------------"; // 40 symbols
@@ -37,13 +38,12 @@ public class Printer {
         System.out.println("DONE");
         ContentAdapter.getDone().forEach(System.out::println);
         System.out.println(delimiter);
-
     }
 
     private static void printWithFormat() {
-        ArrayList<String> shouldDoForOutput   = Formatter.format(ContentAdapter.getShouldDo());
-        ArrayList<String> inProgressForOutput = Formatter.format(ContentAdapter.getInProgress());
-        ArrayList<String> doneForOutput       = Formatter.format(ContentAdapter.getDone());
+        ArrayList<String> shouldDoForOutput   = format(ContentAdapter.getShouldDo());
+        ArrayList<String> inProgressForOutput = format(ContentAdapter.getInProgress());
+        ArrayList<String> doneForOutput       = format(ContentAdapter.getDone());
 
         String shouldDoHeading   = "----------------SHOULD-DO---------------";
         String inProgressHeading = "---------------IN-PROGRESS--------------";
@@ -78,5 +78,35 @@ public class Printer {
                 System.out.println(space);
             }
         }
+    }
+
+    private static ArrayList<String> format(ArrayList<String> tasks) {
+        ArrayList<String> taskLines = new ArrayList<>();
+
+        for (String task : tasks) {
+            String[] words = task.split(" ");
+            StringBuilder line = new StringBuilder();
+            for (String word : words) {
+                if ((line + word).length() <= delimiter.length()) {
+                    line.append(word);
+                } else {
+                    while (line.length() < delimiter.length()) {
+                        line.append(" ");
+                    }
+                    taskLines.add(line.toString());
+                    line = new StringBuilder(word + " ");
+                    continue;
+                }
+                if (line.length() < delimiter.length()) {
+                    line.append(" ");
+                }
+            }
+            while(line.length() < delimiter.length()) {
+                line.append(" ");
+            }
+            taskLines.add(line.toString());
+        }
+
+        return taskLines;
     }
 }

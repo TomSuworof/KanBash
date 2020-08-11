@@ -20,6 +20,15 @@ public class Writer {
 
     public static void clear(String message) {
         // clear certain column or all of them
-        ContentAdapter.removeSomething(message);
+        ContentAdapter.clearSomething(message);
+    }
+
+    public static void remove(String message) {
+        // allow to remove certain element from columns
+        try {
+            ContentAdapter.removeTask(message);
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR. It was not a number");
+        }
     }
 }

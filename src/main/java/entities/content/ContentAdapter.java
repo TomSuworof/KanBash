@@ -66,9 +66,9 @@ public class ContentAdapter {
             System.out.println("ERROR. You do not have so much tasks in IN PROGRESS");
         }
     }
-    public static void removeSomething(String nameOfColumn) {
+    public static void clearSomething(String message) {
         content = getContent();
-        switch (nameOfColumn) {
+        switch (message.toUpperCase()) {
             case "SHOULD DO":
                 content.shouldDo.clear();
                 break;
@@ -84,6 +84,29 @@ public class ContentAdapter {
                 content.done.clear();
             default:
                 break;
+        }
+        update();
+    }
+    public static void removeTask(String message) throws NumberFormatException {
+        content = getContent();
+        int index = Integer.parseInt(message.split(" ")[message.split(" ").length - 1]);
+        String nameOfColumn = message.substring(0, message.length() - String.valueOf(index).length() - 1);
+        try {
+            switch (nameOfColumn.toUpperCase()) {
+                case "SHOULD DO":
+                    content.shouldDo.remove(index);
+                    break;
+                case "IN PROGRESS":
+                    content.inProgress.remove(index);
+                    break;
+                case "DONE":
+                    content.done.remove(index);
+                    break;
+                default:
+                    break;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("ERROR. You do not have so mush tasks");
         }
         update();
     }

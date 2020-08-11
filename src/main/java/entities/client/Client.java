@@ -30,17 +30,21 @@ public class Client {
                     case "clear":
                         Writer.clear(message);
                         break;
+                    case "remove":
+                        Writer.remove(message);
+                        break;
                     case "exit":
                         break;
                     default:
                         System.out.println(
                                 "I do not know this command\n" +
                                  "Please use these commands:\n" +
-                                 "- new + 'message'\n" +
-                                 "- pick + 'index'\n" +
-                                 "- done + 'index'\n" +
-                                 "- clear + 'name_of_column' or 'all'\n" +
-                                 "- exit - for exit"
+                                 "- new 'message'\n" +
+                                 "- pick 'index'\n" +
+                                 "- done 'index'\n" +
+                                 "- clear 'name_of_column' or 'all'\n" +
+                                 "- remove 'name_of_column' 'index'\n" +
+                                 "- exit"
                         );
                 }
             } while (!input.equals("exit"));
