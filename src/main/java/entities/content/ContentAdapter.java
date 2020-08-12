@@ -18,7 +18,7 @@ public class ContentAdapter {
         private ArrayList<String> done;
     }
 
-    private static final String fileName = "src\\main\\resources\\contentMy.json";
+    private static final String fileName = "D:\\Programs\\IntelliJIDEA\\KanBash\\src\\main\\resources\\contentMy.json";
     private static Content content;
 
     private static Content getContent() {
