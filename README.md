@@ -7,5 +7,6 @@ We have 3 columns: SHOULD DO, IN PROGRESS and DONE
 - done 'index' - pick one task from IN PROGRESS and move it to DONE
 - clear 'something' - allows to clear certain column or all
 - remove 'something' 'index' - allows to remove certain element from certain column
+- numeration 'number' or 'hyphen' - allows to change numeration
 - exit - for exit
 # MAKE YOUR PRODUCTIVITY GREAT AGAIN
