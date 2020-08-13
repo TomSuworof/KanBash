@@ -11,4 +11,6 @@ public interface Writer {
     void clear(String message);
 
     void remove(String message);
+
+    void setNumeration(String message);
 }

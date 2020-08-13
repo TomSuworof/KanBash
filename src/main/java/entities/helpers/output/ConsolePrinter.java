@@ -5,6 +5,8 @@ import entities.content.GsonContentAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class ConsolePrinter implements Printer {
 
@@ -19,6 +21,7 @@ public class ConsolePrinter implements Printer {
             "- done 'index' - pick one task from IN PROGRESS and move it to DONE\n" +
             "- clear 'something' - allows to clear certain column or all\n" +
             "- remove 'something' 'index' - allows to remove certain element from column\n" +
+            "- numeration 'number' or 'hyphen' - allows to change numeration of tasks\n" +
             "- exit - for exit\n" +
             "MAKE YOUR PRODUCTIVITY GREAT AGAIN\n";
 
@@ -85,9 +88,20 @@ public class ConsolePrinter implements Printer {
     }
 
     private ArrayList<String> format(ArrayList<String> tasks) {
+        boolean isNumeration = contentAdapter.getNumeration();
+
+        ArrayList<String> tasksNew;
+
+        if (isNumeration) {
+            AtomicInteger index = new AtomicInteger();
+            tasksNew = (ArrayList<String>) tasks.stream().map(task -> task = index.getAndIncrement() + ". " + task).collect(Collectors.toList());
+        } else {
+            tasksNew = (ArrayList<String>) tasks.stream().map(task -> task = "- " + task).collect(Collectors.toList());
+        }
+
         ArrayList<String> taskLines = new ArrayList<>();
 
-        for (String task : tasks) {
+        for (String task : tasksNew) {
             String[] words = task.split(" ");
             StringBuilder line = new StringBuilder();
             for (String word : words) {

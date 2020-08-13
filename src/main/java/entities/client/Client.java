@@ -37,6 +37,8 @@ public class Client {
                     case "remove":
                         writer.remove(message);
                         break;
+                    case "numeration":
+                        writer.setNumeration(message);
                     case "exit":
                         break;
                     default:
@@ -48,6 +50,7 @@ public class Client {
                                  "- done 'index'\n" +
                                  "- clear 'name_of_column' or 'all'\n" +
                                  "- remove 'name_of_column' 'index'\n" +
+                                 "- numeration 'number' or 'hyphen'\n" +
                                  "- exit"
                         );
                 }

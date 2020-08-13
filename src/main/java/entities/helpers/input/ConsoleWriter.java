@@ -47,4 +47,17 @@ public class ConsoleWriter implements  Writer {
             System.out.println("ERROR. It was not a number");
         }
     }
+
+    public void setNumeration(String message) {
+        switch (message) {
+            case "number":
+                contentAdapter.setNumeration(true);
+                break;
+            case "hyphen":
+                contentAdapter.setNumeration(false);
+                break;
+            default:
+                break;
+        }
+    }
 }

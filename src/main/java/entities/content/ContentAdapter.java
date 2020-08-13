@@ -6,10 +6,12 @@ public interface ContentAdapter {
     ArrayList<String> getShouldDo();
     ArrayList<String> getDone();
     ArrayList<String> getInProgress();
+    boolean getNumeration();
 
     void addShouldDo(String message);
     void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException;
     void moveInProgressToDone(int index) throws IndexOutOfBoundsException;
     void clearSomething(String message);
     void removeTask(String message);
+    void setNumeration(boolean isNumeration);
 }

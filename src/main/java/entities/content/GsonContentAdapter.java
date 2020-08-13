@@ -16,6 +16,7 @@ public class GsonContentAdapter implements ContentAdapter {
         private ArrayList<String> shouldDo;
         private ArrayList<String> inProgress;
         private ArrayList<String> done;
+        private boolean isNumeration = false;
     }
 
     private static final String fileName = "contentMy.json";
@@ -30,7 +31,6 @@ public class GsonContentAdapter implements ContentAdapter {
 
     }
     private static Content content;
-
     private Content getContent() {
         try (FileReader fileReader = new FileReader(path)) {
             content = new Gson().fromJson(fileReader, Content.class);
@@ -39,6 +39,15 @@ public class GsonContentAdapter implements ContentAdapter {
         }
 
         return content;
+    }
+
+    public boolean getNumeration() {
+        return getContent().isNumeration;
+    }
+    public void setNumeration(boolean isNumeration) {
+        content = getContent();
+        content.isNumeration = isNumeration;
+        update();
     }
 
     public ArrayList<String> getShouldDo() {
@@ -53,7 +62,7 @@ public class GsonContentAdapter implements ContentAdapter {
 
     public void addShouldDo(String message) {
         content = getContent();
-        content.shouldDo.add("- " + message);
+        content.shouldDo.add(message);
         update();
     }
     public void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException{
@@ -80,7 +89,7 @@ public class GsonContentAdapter implements ContentAdapter {
             case "DONE":
                 content.done.clear();
                 break;
-            case "all":
+            case "ALL":
                 content.shouldDo.clear();
                 content.inProgress.clear();
                 content.done.clear();
