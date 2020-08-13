@@ -32,7 +32,6 @@ public class GsonContentAdapter implements ContentAdapter {
     private static Content content;
 
     private Content getContent() {
-        System.out.println(path);
         try (FileReader fileReader = new FileReader(path)) {
             content = new Gson().fromJson(fileReader, Content.class);
         } catch (IOException e) {
