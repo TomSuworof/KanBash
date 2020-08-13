@@ -1,37 +1,41 @@
 package entities.client;
-
-import entities.helpers.output.Printer;
 import entities.helpers.input.Writer;
+import entities.helpers.output.Printer;
+import entities.helpers.input.ConsoleWriter;
+import entities.helpers.output.ConsolePrinter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Client {
+    private static final Writer writer = new ConsoleWriter();
+    private static final Printer printer = new ConsolePrinter();
+
     public void work() {
-        System.out.println(Printer.WelcomePage);
+        printer.printWelcomePage();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             String input;
             do {
-                Printer.print();
+                printer.print();
                 input = bufferedReader.readLine().trim();
                 String command = input.split(" ")[0];
                 String message = input.substring(command.length()).trim();
                 switch (command) {
                     case "new":
-                        Writer.newTask(message);
+                        writer.newTask(message);
                         break;
                     case "pick":
-                        Writer.pick(message);
+                        writer.pick(message);
                         break;
                     case "done":
-                        Writer.done(message);
+                        writer.done(message);
                         break;
                     case "clear":
-                        Writer.clear(message);
+                        writer.clear(message);
                         break;
                     case "remove":
-                        Writer.remove(message);
+                        writer.remove(message);
                         break;
                     case "exit":
                         break;
