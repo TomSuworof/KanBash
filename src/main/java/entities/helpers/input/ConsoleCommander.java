@@ -3,9 +3,47 @@ package entities.helpers.input;
 import entities.content.ContentAdapter;
 import entities.content.GsonContentAdapter;
 
-public class ConsoleWriter implements  Writer {
+public class ConsoleCommander implements Commander {
 
     private static final ContentAdapter contentAdapter = new GsonContentAdapter();
+
+    public void parse(String input) {
+        String command = input.split(" ")[0];
+        String message = input.substring(command.length()).trim();
+        switch (command) {
+            case "new":
+                newTask(message);
+                break;
+            case "pick":
+                pick(message);
+                break;
+            case "done":
+                done(message);
+                break;
+            case "clear":
+                clear(message);
+                break;
+            case "remove":
+                remove(message);
+                break;
+            case "numeration":
+                setNumeration(message);
+            case "exit":
+                break;
+            default:
+                System.out.println(
+                        "I do not know this command\n" +
+                                "Please use these commands:\n" +
+                                "- new 'message'\n" +
+                                "- pick 'index'\n" +
+                                "- done 'index'\n" +
+                                "- clear 'name_of_column' or 'all'\n" +
+                                "- remove 'name_of_column' 'index'\n" +
+                                "- numeration 'number' or 'hyphen'\n" +
+                                "- exit"
+                );
+        }
+    }
 
     public void newTask(String message) {
         // adding new task in column 'do'

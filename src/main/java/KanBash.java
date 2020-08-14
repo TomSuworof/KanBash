@@ -6,8 +6,3 @@ public class KanBash {
         client.work();
     }
 }
-
-/*
-todo
-    - turn it to app
- */

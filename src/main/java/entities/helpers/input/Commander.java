@@ -1,6 +1,8 @@
 package entities.helpers.input;
 
-public interface Writer {
+public interface Commander {
+
+    void parse(String message);
 
     void newTask(String message);
 
