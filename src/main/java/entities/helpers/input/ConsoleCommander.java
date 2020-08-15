@@ -3,7 +3,7 @@ package entities.helpers.input;
 import entities.content.ContentAdapter;
 import entities.content.GsonContentAdapter;
 
-public class ConsoleCommander implements Commander {
+public class ConsoleCommander implements Commander, Parser {
 
     private static final ContentAdapter contentAdapter = new GsonContentAdapter();
 

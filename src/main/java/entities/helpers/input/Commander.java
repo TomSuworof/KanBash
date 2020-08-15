@@ -2,8 +2,6 @@ package entities.helpers.input;
 
 public interface Commander {
 
-    void parse(String message);
-
     void newTask(String message);
 
     void pick(String index);
