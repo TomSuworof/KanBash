@@ -1,16 +1,23 @@
 package entities.helpers.input;
 
-public interface Commander {
+import entities.content.ContentAdapter;
 
-    void newTask(String message);
+public abstract class Commander {
+    protected static ContentAdapter contentAdapter;
 
-    void pick(String index);
+    public Commander(ContentAdapter contentAdapter) {
+        Commander.contentAdapter = contentAdapter;
+    }
 
-    void done(String index);
+    abstract void newTask(String message);
 
-    void clear(String message);
+    abstract void pick(String index);
 
-    void remove(String message);
+    abstract void done(String index);
 
-    void setNumeration(String message);
+    abstract void clear(String message);
+
+    abstract void remove(String message);
+
+    abstract void setNumeration(String message);
 }

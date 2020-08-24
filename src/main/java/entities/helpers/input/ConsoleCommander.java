@@ -1,11 +1,12 @@
 package entities.helpers.input;
 
 import entities.content.ContentAdapter;
-import entities.content.GsonContentAdapter;
 
-public class ConsoleCommander implements Commander, Parser {
+public class ConsoleCommander extends Commander implements Parser {
 
-    private static final ContentAdapter contentAdapter = new GsonContentAdapter();
+    public ConsoleCommander(ContentAdapter contentAdapter) {
+        super(contentAdapter);
+    }
 
     public void parse(String input) {
         String command = input.split(" ")[0];

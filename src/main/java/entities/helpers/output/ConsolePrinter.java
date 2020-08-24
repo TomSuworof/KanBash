@@ -1,16 +1,13 @@
 package entities.helpers.output;
 
 import entities.content.ContentAdapter;
-import entities.content.GsonContentAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class ConsolePrinter implements Printer {
-
-    private static final ContentAdapter contentAdapter = new GsonContentAdapter();
+public class ConsolePrinter extends Printer {
 
     private static final String WelcomePage = "" +
             "WELCOME TO KANBASH. Here we have kanban methodology via CLI\n" +
@@ -26,6 +23,10 @@ public class ConsolePrinter implements Printer {
             "MAKE YOUR PRODUCTIVITY GREAT AGAIN\n";
 
     private static final String delimiter = "----------------------------------------"; // 40 symbols
+
+    public ConsolePrinter(ContentAdapter contentAdapter) {
+        super(contentAdapter);
+    }
 
     public void print() {
 //        printSimple();

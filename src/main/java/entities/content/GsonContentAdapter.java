@@ -11,26 +11,7 @@ import java.util.ArrayList;
  * this adapter allows us to use content, that will be automatically updated
  */
 
-public class GsonContentAdapter implements ContentAdapter {
-    private static class Content {
-        private ArrayList<String> shouldDo;
-        private ArrayList<String> inProgress;
-        private ArrayList<String> done;
-        private boolean isNumeration = false;
-    }
-
-    private static final String fileName = "contentMy.json";
-    private static String path = ClassLoader.getSystemResource(fileName).toString();
-    static {
-        if (path.startsWith("jar:")) {
-            path = fileName;
-        }
-        if (path.startsWith("file:")) {
-            path = path.substring(6);
-        }
-
-    }
-    private static Content content;
+public class GsonContentAdapter extends ContentAdapter {
     private Content getContent() {
         try (FileReader fileReader = new FileReader(path)) {
             content = new Gson().fromJson(fileReader, Content.class);

@@ -2,16 +2,36 @@ package entities.content;
 
 import java.util.ArrayList;
 
-public interface ContentAdapter {
-    ArrayList<String> getShouldDo();
-    ArrayList<String> getDone();
-    ArrayList<String> getInProgress();
-    boolean getNumeration();
+public abstract class ContentAdapter {
+    protected static class Content {
+        protected ArrayList<String> shouldDo;
+        protected ArrayList<String> inProgress;
+        protected ArrayList<String> done;
+        protected boolean isNumeration = false;
+    }
 
-    void addShouldDo(String message);
-    void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException;
-    void moveInProgressToDone(int index) throws IndexOutOfBoundsException;
-    void clearSomething(String message);
-    void removeTask(String message);
-    void setNumeration(boolean isNumeration);
+    protected static final String fileName = "contentMy.json";
+    protected static String path = ClassLoader.getSystemResource(fileName).toString();
+    static {
+        if (path.startsWith("jar:")) {
+            path = fileName;
+        }
+        if (path.startsWith("file:")) {
+            path = path.substring(6);
+        }
+
+    }
+    protected static Content content;
+
+    public abstract ArrayList<String> getShouldDo();
+    public abstract ArrayList<String> getDone();
+    public abstract ArrayList<String> getInProgress();
+    public abstract boolean getNumeration();
+
+    public abstract void addShouldDo(String message);
+    public abstract void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException;
+    public abstract void moveInProgressToDone(int index) throws IndexOutOfBoundsException;
+    public abstract void clearSomething(String message);
+    public abstract void removeTask(String message);
+    public abstract void setNumeration(boolean isNumeration);
 }

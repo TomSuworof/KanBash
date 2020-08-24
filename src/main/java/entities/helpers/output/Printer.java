@@ -1,8 +1,17 @@
 package entities.helpers.output;
 
-public interface Printer {
+import entities.content.ContentAdapter;
+import entities.content.GsonContentAdapter;
 
-    void print();
+public abstract class Printer {
+    protected static ContentAdapter contentAdapter;
 
-    void printWelcomePage();
+
+    public Printer(ContentAdapter contentAdapter) {
+        this.contentAdapter = contentAdapter;
+    }
+
+    public abstract void print();
+
+    public abstract void printWelcomePage();
 }
