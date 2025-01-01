@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Client {
-    private static Parser commander;
-    private static Printer printer;
+    private final Parser commander;
+    private final Printer printer;
 
     public Client(Parser commander, Printer printer) {
-        Client.commander = commander;
-        Client.printer = printer;
+        this.commander = commander;
+        this.printer = printer;
     }
 
-    public void work() {
+    public void start() {
         printer.printWelcomePage();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             String input;
@@ -24,8 +24,8 @@ public class Client {
                 input = bufferedReader.readLine().trim();
                 commander.parse(input);
             } while (!input.equals("exit"));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

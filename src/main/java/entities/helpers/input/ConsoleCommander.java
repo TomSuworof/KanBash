@@ -33,7 +33,7 @@ public class ConsoleCommander extends Commander implements Parser {
                 break;
             default:
                 System.out.println(
-                        "I do not know this command\n" +
+                        "Unknown command\n" +
                                 "Please use these commands:\n" +
                                 "- new 'message'\n" +
                                 "- pick 'index'\n" +
@@ -48,7 +48,7 @@ public class ConsoleCommander extends Commander implements Parser {
 
     public void newTask(String message) {
         // adding new task in column 'do'
-        contentAdapter.addShouldDo(message);
+        contentAdapter.addShouldDoTask(message);
     }
 
     public void pick(String index) {
@@ -90,10 +90,10 @@ public class ConsoleCommander extends Commander implements Parser {
     public void setNumeration(String message) {
         switch (message) {
             case "number":
-                contentAdapter.setNumeration(true);
+                contentAdapter.setNumerationUsage(true);
                 break;
             case "hyphen":
-                contentAdapter.setNumeration(false);
+                contentAdapter.setNumerationUsage(false);
                 break;
             default:
                 break;

@@ -2,23 +2,23 @@ package entities.helpers.output;
 
 import entities.content.ContentAdapter;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class ConsolePrinter extends Printer {
-
-    private static final String WelcomePage = "" +
-            "WELCOME TO KANBASH. Here we have kanban methodology via CLI\n" +
-            "We have 3 columns: SHOULD DO, IN PROGRESS and DONE\n" +
-            "commands supported:\n" +
-            "- new 'task' - creates new task in SHOULD DO\n" +
-            "- pick 'index' - pick I'th command from SHOULD DO and move it to IN PROGRESS\n" +
-            "- done 'index' - pick one task from IN PROGRESS and move it to DONE\n" +
-            "- clear 'something' - allows to clear certain column or all\n" +
-            "- remove 'something' 'index' - allows to remove certain element from column\n" +
-            "- numeration 'number' or 'hyphen' - allows to change numeration of tasks\n" +
+    private static final String WELCOME_MESSAGE = "" +
+            "WELCOME TO KANBASH. Kanban methodology via CLI\n" +
+            "Board has 3 columns: SHOULD DO, IN PROGRESS and DONE\n" +
+            "Supported commands:\n" +
+            "- new 'task' - creates new task in SHOULD DO column\n" +
+            "- pick 'index' - picks i'th task from SHOULD DO and move it to IN PROGRESS\n" +
+            "- done 'index' - picks i'th task from IN PROGRESS and move it to DONE\n" +
+            "- clear 'something' - clears specified column or all columns\n" +
+            "- remove 'something' 'index' - removes specified task from column\n" +
+            "- numeration 'number' or 'hyphen' - changes numeration\n" +
             "- exit - for exit\n" +
             "MAKE YOUR PRODUCTIVITY GREAT AGAIN\n";
 
@@ -29,29 +29,16 @@ public class ConsolePrinter extends Printer {
     }
 
     public void print() {
-//        printSimple();
         printWithFormat();
     }
     public void printWelcomePage() {
-        System.out.println(WelcomePage);
+        System.out.println(WELCOME_MESSAGE);
     }
-    private void printSimple() {
-        System.out.println("SHOULD DO");
-        contentAdapter.getShouldDo().forEach(System.out::println);
-        System.out.println(delimiter);
 
-        System.out.println("IN PROGRESS");
-        contentAdapter.getInProgress().forEach(System.out::println);
-        System.out.println(delimiter);
-
-        System.out.println("DONE");
-        contentAdapter.getDone().forEach(System.out::println);
-        System.out.println(delimiter);
-    }
     private void printWithFormat() {
-        ArrayList<String> shouldDoForOutput   = format(contentAdapter.getShouldDo());
-        ArrayList<String> inProgressForOutput = format(contentAdapter.getInProgress());
-        ArrayList<String> doneForOutput       = format(contentAdapter.getDone());
+        List<String> shouldDoForOutput   = format(contentAdapter.getShouldDoTasks());
+        List<String> inProgressForOutput = format(contentAdapter.getInProgressTasks());
+        List<String> doneForOutput       = format(contentAdapter.getDoneTasks());
 
         String shouldDoHeading   = "----------------SHOULD-DO---------------";
         String inProgressHeading = "---------------IN-PROGRESS--------------";
@@ -70,39 +57,37 @@ public class ConsolePrinter extends Printer {
         for (int i = 0; i < limits[2]; i++) {
             try {
                 System.out.print(shouldDoForOutput.get(i));
-            } catch (IndexOutOfBoundsException index0) {
+            } catch (IndexOutOfBoundsException e) {
                 System.out.print(space);
             }
             System.out.print("|");
             try {
                 System.out.print(inProgressForOutput.get(i));
-            } catch (IndexOutOfBoundsException index1) {
+            } catch (IndexOutOfBoundsException e) {
                 System.out.print(space);
             }
             System.out.print("|");
             try {
                 System.out.println(doneForOutput.get(i));
-            } catch (IndexOutOfBoundsException index2) {
+            } catch (IndexOutOfBoundsException e) {
                 System.out.println(space);
             }
         }
     }
 
-    private ArrayList<String> format(ArrayList<String> tasks) {
-        boolean isNumeration = contentAdapter.getNumeration();
+    private List<String> format(List<String> tasks) {
+        List<String> newTasks;
 
-        ArrayList<String> tasksNew;
-
-        if (isNumeration) {
+        if (contentAdapter.isNumerationUsed()) {
             AtomicInteger index = new AtomicInteger();
-            tasksNew = (ArrayList<String>) tasks.stream().map(task -> task = index.getAndIncrement() + ". " + task).collect(Collectors.toList());
+            newTasks = tasks.stream().map(task -> index.getAndIncrement() + ". " + task).collect(Collectors.toList());
         } else {
-            tasksNew = (ArrayList<String>) tasks.stream().map(task -> task = "- " + task).collect(Collectors.toList());
+            newTasks = tasks.stream().map(task -> "- " + task).collect(Collectors.toList());
         }
 
-        ArrayList<String> taskLines = new ArrayList<>();
+        List<String> taskLines = new ArrayList<>();
 
-        for (String task : tasksNew) {
+        for (String task : newTasks) {
             String[] words = task.split(" ");
             StringBuilder line = new StringBuilder();
             for (String word : words) {

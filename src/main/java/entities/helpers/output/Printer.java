@@ -1,11 +1,9 @@
 package entities.helpers.output;
 
 import entities.content.ContentAdapter;
-import entities.content.GsonContentAdapter;
 
 public abstract class Printer {
-    protected static ContentAdapter contentAdapter;
-
+    protected ContentAdapter contentAdapter;
 
     public Printer(ContentAdapter contentAdapter) {
         this.contentAdapter = contentAdapter;
