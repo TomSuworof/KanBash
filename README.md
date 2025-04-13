@@ -1,4 +1,4 @@
-# KanBash
+# `KanBash`
 
 Access kanban board via CLI.
 
@@ -14,4 +14,10 @@ Board has 3 columns: `SHOULD DO`, `IN PROGRESS` and `DONE`.
 - numeration 'number' or 'hyphen' - changes numeration
 - exit - for exit
 
-# MAKE YOUR PRODUCTIVITY GREAT AGAIN
+Example of board:
+```
+----------------SHOULD-DO---------------+---------------IN-PROGRESS--------------+------------------DONE------------------
+0. Do more                              |0. Doing something                      |0. Done something                       
+1. I SAID DO MORE                       |                                        |                                        
+2. IT IS NOT ENOUGH                     |                                        |                                        
+```

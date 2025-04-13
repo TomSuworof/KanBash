@@ -31,6 +31,20 @@ public class ConsoleCommander extends Commander implements Parser {
                 setNumeration(message);
             case "exit":
                 break;
+            case "commands":
+            case "info":
+            case "help":
+                System.out.println(
+                        "Commands:\n" +
+                                "- new 'message'\n" +
+                                "- pick 'index'\n" +
+                                "- done 'index'\n" +
+                                "- clear 'name_of_column' or 'all'\n" +
+                                "- remove 'name_of_column' 'index'\n" +
+                                "- numeration 'number' or 'hyphen'\n" +
+                                "- exit"
+                );
+                break;
             default:
                 System.out.println(
                         "Unknown command\n" +
@@ -68,7 +82,7 @@ public class ConsoleCommander extends Commander implements Parser {
             contentAdapter.moveInProgressToDone(Integer.parseInt(index));
         } catch (IndexOutOfBoundsException indexEx) {
             System.out.println("ERROR. You do not have so much tasks in IN PROGRESS");
-        }catch (NumberFormatException numberEx) {
+        } catch (NumberFormatException numberEx) {
             System.out.println("ERROR. It was not a number");
         }
     }
