@@ -1,6 +1,7 @@
-package entities.helpers.output;
+package entities.helpers.output.console;
 
 import entities.content.ContentAdapter;
+import entities.helpers.output.Printer;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class ConsolePrinter extends Printer {
+public class ConsolePrinter implements Printer {
     private static final String WELCOME_MESSAGE = "" +
             "WELCOME TO KANBASH. Kanban methodology via CLI\n" +
             "Board has 3 columns: SHOULD DO, IN PROGRESS and DONE\n" +
@@ -24,13 +25,18 @@ public class ConsolePrinter extends Printer {
 
     private static final String delimiter = "----------------------------------------"; // 40 symbols
 
+    private final ContentAdapter contentAdapter;
+
     public ConsolePrinter(ContentAdapter contentAdapter) {
-        super(contentAdapter);
+        this.contentAdapter = contentAdapter;
     }
 
+    @Override
     public void print() {
         printWithFormat();
     }
+
+    @Override
     public void printWelcomePage() {
         System.out.println(WELCOME_MESSAGE);
     }

@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class JsonFileContentAdapter extends ContentAdapter {
+public class JsonFileContentAdapter implements ContentAdapter {
     private static final String contentFileName = "content.json";
 
     private File contenFile;
@@ -32,50 +32,65 @@ public class JsonFileContentAdapter extends ContentAdapter {
         }
     }
 
-    public Boolean isNumerationUsed() {
+    @Override
+    public boolean isNumerationUsed() {
         return content.isNumerationUsed;
     }
+
+    @Override
     public void setNumerationUsage(boolean useNumeration) {
         content.isNumerationUsed = useNumeration;
         update();
     }
 
+    @Override
     public List<String> getShouldDoTasks() {
         return content.shouldDoTasks;
     }
+
+    @Override
     public List<String> getDoneTasks() {
         return content.doneTasks;
     }
+
+    @Override
     public List<String> getInProgressTasks() {
         return content.inProgressTasks;
     }
 
+    @Override
     public void addShouldDoTask(String message) {
         content.shouldDoTasks.add(message);
         update();
     }
-    public void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException{
+
+    @Override
+    public void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException {
         content.inProgressTasks.add(0, content.shouldDoTasks.get(index));
         content.shouldDoTasks.remove(index);
         update();
     }
+
+    @Override
     public void moveInProgressToDone(int index) throws IndexOutOfBoundsException {
         content.doneTasks.add(0, content.inProgressTasks.get(index));
         content.inProgressTasks.remove(index);
         update();
     }
-    public void clearSomething(String message) {
-        switch (message.toUpperCase()) {
-            case "SHOULD DO":
+
+    @Override
+    public void clearSomething(Column column) {
+        switch (column) {
+            case SHOULD_DO:
                 content.shouldDoTasks.clear();
                 break;
-            case "IN PROGRESS":
+            case IN_PROGRESS:
                 content.inProgressTasks.clear();
                 break;
-            case "DONE":
+            case DONE:
                 content.doneTasks.clear();
                 break;
-            case "ALL":
+            case ALL:
                 content.shouldDoTasks.clear();
                 content.inProgressTasks.clear();
                 content.doneTasks.clear();
@@ -84,19 +99,18 @@ public class JsonFileContentAdapter extends ContentAdapter {
         }
         update();
     }
-    public void removeTask(String message) throws NumberFormatException {
-        String[] messageParts = message.split(" ");
-        int index = Integer.parseInt(messageParts[messageParts.length - 1]);
-        String columnName = message.substring(0, message.length() - String.valueOf(index).length() - 1);
+
+    @Override
+    public void removeTask(Column column, int index) throws NumberFormatException {
         try {
-            switch (columnName.toUpperCase()) {
-                case "SHOULD DO":
+            switch (column) {
+                case SHOULD_DO:
                     content.shouldDoTasks.remove(index);
                     break;
-                case "IN PROGRESS":
+                case IN_PROGRESS:
                     content.inProgressTasks.remove(index);
                     break;
-                case "DONE":
+                case DONE:
                     content.doneTasks.remove(index);
                     break;
                 default:

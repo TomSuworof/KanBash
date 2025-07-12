@@ -1,23 +1,18 @@
 package entities.helpers.input;
 
-import entities.content.ContentAdapter;
+import entities.content.Column;
+import entities.content.Numeration;
 
-public abstract class Commander {
-    protected static ContentAdapter contentAdapter;
+public interface Commander {
+    void newTask(String taskText);
 
-    public Commander(ContentAdapter contentAdapter) {
-        Commander.contentAdapter = contentAdapter;
-    }
+    void pick(int index);
 
-    abstract void newTask(String message);
+    void done(int index);
 
-    abstract void pick(String index);
+    void clear(Column column);
 
-    abstract void done(String index);
+    void remove(Column column, int index);
 
-    abstract void clear(String message);
-
-    abstract void remove(String message);
-
-    abstract void setNumeration(String message);
+    void setNumeration(Numeration numeration);
 }

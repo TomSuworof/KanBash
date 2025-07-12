@@ -1,15 +1,7 @@
 package entities.helpers.output;
 
-import entities.content.ContentAdapter;
+public interface Printer {
+    void print();
 
-public abstract class Printer {
-    protected ContentAdapter contentAdapter;
-
-    public Printer(ContentAdapter contentAdapter) {
-        this.contentAdapter = contentAdapter;
-    }
-
-    public abstract void print();
-
-    public abstract void printWelcomePage();
+    void printWelcomePage();
 }
