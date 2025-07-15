@@ -1,25 +1,22 @@
 package entities.content;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContentAdapter {
     boolean isNumerationUsed();
 
     void setNumerationUsage(boolean isNumeration);
 
-    List<String> getShouldDoTasks();
+    List<String> getTasks(Column column);
 
-    List<String> getDoneTasks();
+    Optional<String> getTask(Column column, int index);
 
-    List<String> getInProgressTasks();
+    void addTask(Column column, String taskText);
 
-    void addShouldDoTask(String message);
+    void moveTask(Column oldColumn, int index, Column newColumn) throws IndexOutOfBoundsException;
 
-    void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException;
-
-    void moveInProgressToDone(int index) throws IndexOutOfBoundsException;
-
-    void clearSomething(Column column);
+    void clear(Column column);
 
     void removeTask(Column column, int index);
 

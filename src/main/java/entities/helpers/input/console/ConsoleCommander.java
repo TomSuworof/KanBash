@@ -4,19 +4,19 @@ import entities.client.Client;
 import entities.content.Column;
 import entities.content.ContentAdapter;
 import entities.content.Numeration;
-import entities.helpers.common.DefaultCommander;
 import entities.helpers.output.Printer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ConsoleCommander extends DefaultCommander implements Client {
+public class ConsoleCommander implements Client {
     private final Printer printer;
+    private final ContentAdapter contentAdapter;
     private boolean toExit = false;
 
     public ConsoleCommander(ContentAdapter contentAdapter, Printer printer) {
-        super(contentAdapter);
+        this.contentAdapter = contentAdapter;
         this.printer = printer;
     }
 
@@ -41,24 +41,28 @@ public class ConsoleCommander extends DefaultCommander implements Client {
         String message = input.substring(command.length()).trim();
         switch (command) {
             case "new":
-                newTask(message);
+                contentAdapter.addTask(Column.SHOULD_DO, message);
                 break;
             case "pick":
                 try {
-                    pick(Integer.parseInt(message));
+                    contentAdapter.moveTask(Column.SHOULD_DO, Integer.parseInt(message), Column.IN_PROGRESS);
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. It was not a number");
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("ERROR. You do not have so much tasks in SHOULD DO");
                 }
                 break;
             case "done":
                 try {
-                    done(Integer.parseInt(message));
+                    contentAdapter.moveTask(Column.IN_PROGRESS, Integer.parseInt(message), Column.DONE);
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. It was not a number");
+                } catch (IndexOutOfBoundsException indexEx) {
+                    System.out.println("ERROR. You do not have so much tasks in IN PROGRESS");
                 }
                 break;
             case "clear":
-                clear(columnFromName(message));
+                contentAdapter.clear(columnFromName(message));
                 break;
             case "remove":
                 try {
@@ -69,7 +73,7 @@ public class ConsoleCommander extends DefaultCommander implements Client {
                     if (column == Column.ALL) {
                         throw new IllegalArgumentException("Cannot remove from all columns");
                     }
-                    remove(column, index);
+                    contentAdapter.removeTask(column, index);
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. It was not a number");
                 }
@@ -102,13 +106,22 @@ public class ConsoleCommander extends DefaultCommander implements Client {
                     for (int i = indexOfTaskText; i < messageParts.length; i++) {
                         taskText.append(messageParts[i]);
                     }
-                    edit(column, index, taskText.toString());
+                    contentAdapter.editTask(column, index, taskText.toString());
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. It was not a number");
                 }
                 break;
             case "numeration":
-                setNumeration(numerationFromName(message));
+                switch (numerationFromName(message)) {
+                    case NUMBER:
+                        contentAdapter.setNumerationUsage(true);
+                        break;
+                    case HYPHEN:
+                        contentAdapter.setNumerationUsage(false);
+                        break;
+                    default:
+                        break;
+                }
             case "exit":
                 toExit = true;
                 break;

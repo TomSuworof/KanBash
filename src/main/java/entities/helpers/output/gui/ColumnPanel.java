@@ -21,14 +21,14 @@ public class ColumnPanel extends JPanel {
     }
 
     private final JPanel columnItemsList;
-    private final List<ColumnItemAction> columnItemActions;
+    private final List<? extends ColumnItemAction> columnItemActions;
 
     private boolean isNumerationUsed = false;
 
     public ColumnPanel(
             String name,
-            List<ColumnAction> columnActions,
-            List<ColumnItemAction> columnItemActions
+            List<? extends ColumnAction> columnActions,
+            List<? extends ColumnItemAction> columnItemActions
     ) {
         this.columnItemActions = columnItemActions;
         setLayout(new GridBagLayout());

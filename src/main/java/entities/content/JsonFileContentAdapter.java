@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class JsonFileContentAdapter implements ContentAdapter {
     private static final String contentFileName = "content.json";
@@ -44,42 +46,52 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public List<String> getShouldDoTasks() {
-        return content.shouldDoTasks;
+    public List<String> getTasks(Column column) {
+        return switch (column) {
+            case SHOULD_DO -> Collections.unmodifiableList(content.shouldDoTasks);
+            case IN_PROGRESS -> Collections.unmodifiableList(content.inProgressTasks);
+            case DONE -> Collections.unmodifiableList(content.doneTasks);
+            default -> throw new IllegalArgumentException("Cannot return all tasks");
+        };
     }
 
     @Override
-    public List<String> getDoneTasks() {
-        return content.doneTasks;
+    public Optional<String> getTask(Column column, int index) {
+        var tasks = getTasks(column);
+        if (index >= tasks.size()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(tasks.get(index));
+        }
     }
 
     @Override
-    public List<String> getInProgressTasks() {
-        return content.inProgressTasks;
-    }
-
-    @Override
-    public void addShouldDoTask(String message) {
-        content.shouldDoTasks.add(message);
+    public void addTask(Column column, String taskText) {
+        switch (column) {
+            case SHOULD_DO:
+                content.shouldDoTasks.add(taskText);
+                break;
+            case IN_PROGRESS:
+                content.inProgressTasks.add(taskText);
+                break;
+            case DONE:
+                content.doneTasks.add(taskText);
+                break;
+            default:
+                break;
+        }
         update();
     }
 
     @Override
-    public void moveShouldDoToInProgress(int index) throws IndexOutOfBoundsException {
-        content.inProgressTasks.add(0, content.shouldDoTasks.get(index));
-        content.shouldDoTasks.remove(index);
-        update();
+    public void moveTask(Column oldColumn, int index, Column newColumn) throws IndexOutOfBoundsException {
+        String task = getTask(oldColumn, index).orElseThrow(IllegalArgumentException::new);
+        this.removeTask(oldColumn, index);
+        this.addTask(newColumn, task);
     }
 
     @Override
-    public void moveInProgressToDone(int index) throws IndexOutOfBoundsException {
-        content.doneTasks.add(0, content.inProgressTasks.get(index));
-        content.inProgressTasks.remove(index);
-        update();
-    }
-
-    @Override
-    public void clearSomething(Column column) {
+    public void clear(Column column) {
         switch (column) {
             case SHOULD_DO:
                 content.shouldDoTasks.clear();
@@ -102,44 +114,36 @@ public class JsonFileContentAdapter implements ContentAdapter {
 
     @Override
     public void removeTask(Column column, int index) throws NumberFormatException {
-        try {
-            switch (column) {
-                case SHOULD_DO:
-                    content.shouldDoTasks.remove(index);
-                    break;
-                case IN_PROGRESS:
-                    content.inProgressTasks.remove(index);
-                    break;
-                case DONE:
-                    content.doneTasks.remove(index);
-                    break;
-                default:
-                    break;
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("ERROR. You do not have task with this number");
+        switch (column) {
+            case SHOULD_DO:
+                content.shouldDoTasks.remove(index);
+                break;
+            case IN_PROGRESS:
+                content.inProgressTasks.remove(index);
+                break;
+            case DONE:
+                content.doneTasks.remove(index);
+                break;
+            default:
+                break;
         }
         update();
     }
 
     @Override
     public void editTask(Column column, int index, String message) {
-        try {
-            switch (column) {
-                case SHOULD_DO:
-                    content.shouldDoTasks.set(index, message);
-                    break;
-                case IN_PROGRESS:
-                    content.inProgressTasks.set(index, message);
-                    break;
-                case DONE:
-                    content.doneTasks.set(index, message);
-                    break;
-                default:
-                    break;
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("ERROR. You do not have tasks with this number");
+        switch (column) {
+            case SHOULD_DO:
+                content.shouldDoTasks.set(index, message);
+                break;
+            case IN_PROGRESS:
+                content.inProgressTasks.set(index, message);
+                break;
+            case DONE:
+                content.doneTasks.set(index, message);
+                break;
+            default:
+                break;
         }
         update();
     }

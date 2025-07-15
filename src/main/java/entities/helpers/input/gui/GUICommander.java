@@ -4,19 +4,19 @@ import entities.client.Client;
 import entities.content.Column;
 import entities.content.ContentAdapter;
 import entities.content.Numeration;
-import entities.helpers.common.DefaultCommander;
 import entities.helpers.output.Printer;
 import entities.helpers.output.gui.BoardPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GUICommander extends DefaultCommander implements Client {
+public class GUICommander implements Client {
+    private final ContentAdapter contentAdapter;
     private final BoardPanel boardPanel;
     private final Printer printer;
 
     public GUICommander(ContentAdapter contentAdapter, BoardPanel boardPanel, Printer printer) {
-        super(contentAdapter);
+        this.contentAdapter = contentAdapter;
         this.boardPanel = boardPanel;
         this.printer = printer;
     }
@@ -52,44 +52,38 @@ public class GUICommander extends DefaultCommander implements Client {
     public void init() {
         boardPanel.addBoardListener(new BoardPanel.BoardListener() {
             @Override
-            public void onNewTask(String taskText) {
-                GUICommander.this.newTask(taskText);
+            public void onNewTask(Column column, String taskText) {
+                contentAdapter.addTask(column, taskText);
                 printer.print();
             }
 
             @Override
-            public void onPick(int index) {
-                GUICommander.this.pick(index);
-                printer.print();
-            }
-
-            @Override
-            public void onDone(int index) {
-                GUICommander.this.done(index);
+            public void onMove(Column oldColumn, int index, Column newColumn) {
+                contentAdapter.moveTask(oldColumn, index, newColumn);
                 printer.print();
             }
 
             @Override
             public void onClear(Column column) {
-                GUICommander.this.clear(column);
+                contentAdapter.clear(column);
                 printer.print();
             }
 
             @Override
             public void onRemove(Column column, int index) {
-                GUICommander.this.remove(column, index);
+                contentAdapter.removeTask(column, index);
                 printer.print();
             }
 
             @Override
             public void onEdit(Column column, int index, String taskText) {
-                GUICommander.this.edit(column, index, taskText);
+                contentAdapter.editTask(column, index, taskText);
                 printer.print();
             }
 
             @Override
             public void onSetNumeration(Numeration numeration) {
-                GUICommander.this.setNumeration(numeration);
+                contentAdapter.setNumerationUsage(numeration == Numeration.NUMBER);
                 printer.print();
             }
         });

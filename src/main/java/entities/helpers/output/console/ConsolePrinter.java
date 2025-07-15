@@ -1,5 +1,6 @@
 package entities.helpers.output.console;
 
+import entities.content.Column;
 import entities.content.ContentAdapter;
 import entities.helpers.output.Printer;
 
@@ -43,9 +44,9 @@ public class ConsolePrinter implements Printer {
     }
 
     private void printWithFormat() {
-        List<String> shouldDoForOutput   = format(contentAdapter.getShouldDoTasks());
-        List<String> inProgressForOutput = format(contentAdapter.getInProgressTasks());
-        List<String> doneForOutput       = format(contentAdapter.getDoneTasks());
+        List<String> shouldDoForOutput   = format(contentAdapter.getTasks(Column.SHOULD_DO));
+        List<String> inProgressForOutput = format(contentAdapter.getTasks(Column.IN_PROGRESS));
+        List<String> doneForOutput       = format(contentAdapter.getTasks(Column.DONE));
 
         String shouldDoHeading   = "----------------SHOULD-DO---------------";
         String inProgressHeading = "---------------IN-PROGRESS--------------";

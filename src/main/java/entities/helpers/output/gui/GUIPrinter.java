@@ -1,5 +1,6 @@
 package entities.helpers.output.gui;
 
+import entities.content.Column;
 import entities.content.ContentAdapter;
 import entities.helpers.output.Printer;
 
@@ -17,9 +18,9 @@ public class GUIPrinter implements Printer {
 
     @Override
     public void print() {
-        List<String> shouldDoForOutput = contentAdapter.getShouldDoTasks();
-        List<String> inProgressForOutput = contentAdapter.getInProgressTasks();
-        List<String> doneForOutput = contentAdapter.getDoneTasks();
+        List<String> shouldDoForOutput = contentAdapter.getTasks(Column.SHOULD_DO);
+        List<String> inProgressForOutput = contentAdapter.getTasks(Column.IN_PROGRESS);
+        List<String> doneForOutput = contentAdapter.getTasks(Column.DONE);
 
         boardPanel.setNumerationSet(contentAdapter.isNumerationUsed());
         boardPanel.setShouldDoTasks(shouldDoForOutput);
