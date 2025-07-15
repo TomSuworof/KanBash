@@ -22,4 +22,6 @@ public interface ContentAdapter {
     void clearSomething(Column column);
 
     void removeTask(Column column, int index);
+
+    void editTask(Column column, int index, String message);
 }

@@ -14,5 +14,7 @@ public interface Commander {
 
     void remove(Column column, int index);
 
+    void edit(Column column, int index, String taskText);
+
     void setNumeration(Numeration numeration);
 }

@@ -19,6 +19,7 @@ public class ConsolePrinter implements Printer {
             "- done 'index' - picks i'th task from IN PROGRESS and move it to DONE\n" +
             "- clear 'something' - clears specified column or all columns\n" +
             "- remove 'something' 'index' - removes specified task from column\n" +
+            " edit 'something' 'index' 'task' - edits specified task in column\n" +
             "- numeration 'number' or 'hyphen' - changes numeration\n" +
             "- exit - for exit\n" +
             "MAKE YOUR PRODUCTIVITY GREAT AGAIN\n";

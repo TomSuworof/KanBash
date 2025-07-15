@@ -74,6 +74,39 @@ public class ConsoleCommander extends DefaultCommander implements Client {
                     System.out.println("ERROR. It was not a number");
                 }
                 break;
+            case "edit":
+                try {
+                    String[] messageParts = message.split(" ");
+                    Column column;
+                    int index;
+                    int indexOfTaskText;
+                    {
+                        // Identifying column
+                        try {
+                            String columnName = messageParts[0];
+                            column = columnFromName(columnName);
+                            index = Integer.parseInt(messageParts[1]);
+                            indexOfTaskText = 2;
+                        } catch (IllegalArgumentException e) {
+                            // column is not in first word, trying first+second
+                            String columName = messageParts[0] + messageParts[1];
+                            column = columnFromName(columName);
+                            index = Integer.parseInt(messageParts[2]);
+                            indexOfTaskText = 3;
+                        }
+                    }
+                    if (column == Column.ALL) {
+                        throw new IllegalArgumentException("Cannot edit in all columns");
+                    }
+                    StringBuilder taskText = new StringBuilder();
+                    for (int i = indexOfTaskText; i < messageParts.length; i++) {
+                        taskText.append(messageParts[i]);
+                    }
+                    edit(column, index, taskText.toString());
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR. It was not a number");
+                }
+                break;
             case "numeration":
                 setNumeration(numerationFromName(message));
             case "exit":
@@ -89,6 +122,7 @@ public class ConsoleCommander extends DefaultCommander implements Client {
                                 "- done 'index'\n" +
                                 "- clear 'name_of_column' or 'all'\n" +
                                 "- remove 'name_of_column' 'index'\n" +
+                                "- edit 'name_of_column' 'index' 'message'\n" +
                                 "- numeration 'number' or 'hyphen'\n" +
                                 "- exit"
                 );
@@ -102,6 +136,7 @@ public class ConsoleCommander extends DefaultCommander implements Client {
                                 "- done 'index'\n" +
                                 "- clear 'name_of_column' or 'all'\n" +
                                 "- remove 'name_of_column' 'index'\n" +
+                                "- edit 'name_of_column' 'index' 'message'\n" +
                                 "- numeration 'number' or 'hyphen'\n" +
                                 "- exit"
                 );

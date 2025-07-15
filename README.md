@@ -11,6 +11,7 @@ Board has 3 columns: `SHOULD DO`, `IN PROGRESS` and `DONE`.
 - done 'index' - picks i'th task from `IN PROGRESS` and moves it to `DONE`
 - clear 'something' - clears specified column or all columns
 - remove 'something' 'index' - removes specified task from specified column
+- edit 'something' 'index' 'task' - edits specified task in column
 - numeration 'number' or 'hyphen' - changes numeration
 - exit - for exit
 

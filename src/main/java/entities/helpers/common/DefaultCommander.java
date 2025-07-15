@@ -51,6 +51,12 @@ public class DefaultCommander implements Commander {
     }
 
     @Override
+    public void edit(Column column, int index, String taskText) {
+        // allow to edit certain element in columns
+        contentAdapter.editTask(column, index, taskText);
+    }
+
+    @Override
     public void setNumeration(Numeration numeration) {
         switch (numeration) {
             case NUMBER:

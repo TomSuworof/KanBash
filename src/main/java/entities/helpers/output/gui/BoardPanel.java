@@ -78,6 +78,43 @@ public class BoardPanel extends JPanel {
             }
         };
 
+        var editShouldDoAction = new ColumnPanel.ColumnItemAction() {
+            @Override
+            public String getActionName() {
+                return "Edit";
+            }
+
+            @Override
+            public void execute(int index) {
+                String taskText = JOptionPane.showInputDialog("New task text");
+                listeners.forEach(l -> l.onEdit(Column.SHOULD_DO, index, taskText));
+            }
+        };
+        var editInProgressAction = new ColumnPanel.ColumnItemAction() {
+            @Override
+            public String getActionName() {
+                return "Edit";
+            }
+
+            @Override
+            public void execute(int index) {
+                String taskText = JOptionPane.showInputDialog("New task text");
+                listeners.forEach(l -> l.onEdit(Column.IN_PROGRESS, index, taskText));
+            }
+        };
+        var editDoneAction = new ColumnPanel.ColumnItemAction() {
+            @Override
+            public String getActionName() {
+                return "Edit";
+            }
+
+            @Override
+            public void execute(int index) {
+                String taskText = JOptionPane.showInputDialog("New task text");
+                listeners.forEach(l -> l.onEdit(Column.DONE, index, taskText));
+            }
+        };
+
         var removeShouldDoAction = new ColumnPanel.ColumnItemAction() {
             @Override
             public String getActionName() {
@@ -115,17 +152,17 @@ public class BoardPanel extends JPanel {
         shouldDoPanel = new ColumnPanel(
                 "SHOULD-DO",
                 List.of(clearShouldDoAction),
-                List.of(pickAction, removeShouldDoAction)
+                List.of(pickAction, editShouldDoAction, removeShouldDoAction)
         );
         inProgressPanel = new ColumnPanel(
                 "IN-PROGRESS",
                 List.of(clearInProgressAction),
-                List.of(doneAction, removeInProgressAction)
+                List.of(doneAction, editInProgressAction, removeInProgressAction)
         );
         donePanel = new ColumnPanel(
                 "DONE",
                 List.of(clearDoneAction),
-                List.of(removeDoneAction)
+                List.of(editDoneAction, removeDoneAction)
         );
 
         JPanel columnPanel = new JPanel(new GridBagLayout());
@@ -219,6 +256,8 @@ public class BoardPanel extends JPanel {
         void onClear(Column column);
 
         void onRemove(Column column, int index);
+
+        void onEdit(Column column, int index, String taskText);
 
         void onSetNumeration(Numeration numeration);
     }

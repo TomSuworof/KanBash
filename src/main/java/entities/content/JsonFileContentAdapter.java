@@ -122,6 +122,28 @@ public class JsonFileContentAdapter implements ContentAdapter {
         update();
     }
 
+    @Override
+    public void editTask(Column column, int index, String message) {
+        try {
+            switch (column) {
+                case SHOULD_DO:
+                    content.shouldDoTasks.set(index, message);
+                    break;
+                case IN_PROGRESS:
+                    content.inProgressTasks.set(index, message);
+                    break;
+                case DONE:
+                    content.doneTasks.set(index, message);
+                    break;
+                default:
+                    break;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("ERROR. You do not have tasks with this number");
+        }
+        update();
+    }
+
     private void update() {
         String jsonString = new Gson().toJson(content);
         try (FileWriter fileWriter = new FileWriter(contenFile, false)) {

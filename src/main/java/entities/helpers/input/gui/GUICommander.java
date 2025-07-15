@@ -82,6 +82,12 @@ public class GUICommander extends DefaultCommander implements Client {
             }
 
             @Override
+            public void onEdit(Column column, int index, String taskText) {
+                GUICommander.this.edit(column, index, taskText);
+                printer.print();
+            }
+
+            @Override
             public void onSetNumeration(Numeration numeration) {
                 GUICommander.this.setNumeration(numeration);
                 printer.print();
