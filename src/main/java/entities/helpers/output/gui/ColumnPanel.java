@@ -90,12 +90,28 @@ public class ColumnPanel extends JPanel {
         this.isNumerationUsed = isNumerationUsed;
     }
 
+    public void setSpecialItemAddButton(JPanel panel) {
+        columnItemsList.add(panel, new GridBagConstraints(
+                0,
+                0,
+                1,
+                1,
+                1,
+                0,
+                GridBagConstraints.NORTHWEST,
+                GridBagConstraints.HORIZONTAL,
+                new Insets(5, 5, 5, 5),
+                0,
+                0
+        ));
+    }
+
     public void setItems(List<String> items) {
         columnItemsList.removeAll();
 
         GridBagConstraints gbc = new GridBagConstraints(
                 0,
-                0,
+                1,
                 1,
                 1,
                 1,
@@ -120,11 +136,11 @@ public class ColumnPanel extends JPanel {
             }
             itemPanel.setComponentPopupMenu(menu);
 
-            gbc.gridy = index;
             if (index == items.size() - 1) {
                 gbc.weighty = 1; // last element would "press" others
             }
             columnItemsList.add(itemPanel, gbc);
+            gbc.gridy++;
         }
         SwingUtilities.invokeLater(columnItemsList::updateUI);
     }

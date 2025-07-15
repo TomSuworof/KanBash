@@ -162,13 +162,6 @@ public class BoardPanel extends JPanel {
 
         JPanel bottomPanel = new JPanel(new GridBagLayout());
 
-        JButton newTaskButton = new JButton("New task");
-        newTaskButton.addActionListener(e -> {
-            String taskText = JOptionPane.showInputDialog(this, "Write task text");
-            listeners.forEach(l -> l.onNewTask(Column.SHOULD_DO, taskText));
-        });
-        bottomPanel.add(newTaskButton, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
-
         JPanel numerationSelectionPanel = new JPanel();
         JLabel numerationLabel = new JLabel("Numeration: ");
         ButtonGroup numerationSelector = new ButtonGroup();
@@ -181,13 +174,44 @@ public class BoardPanel extends JPanel {
         numerationSelectionPanel.add(numerationLabel);
         numerationSelectionPanel.add(hyphen);
         numerationSelectionPanel.add(number);
-        bottomPanel.add(numerationSelectionPanel, new GridBagConstraints(1, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        bottomPanel.add(numerationSelectionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 
         add(bottomPanel, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     }
 
     public void setShouldDoTasks(List<String> tasks) {
         shouldDoPanel.setItems(tasks);
+
+        JPanel specialAddPanel = new JPanel(new GridBagLayout());
+        JButton button = new JButton("New task");
+        button.setBorderPainted(false);
+        button.setBackground(new Color(0xeeeeee));
+        specialAddPanel.setBorder(BorderFactory.createDashedBorder(
+                Color.GRAY,
+                1,
+                5,
+                2,
+                true
+        ));
+        button.addActionListener(e -> {
+            String taskText = JOptionPane.showInputDialog(this, "Write task text");
+            listeners.forEach(l -> l.onNewTask(Column.SHOULD_DO, taskText));
+        });
+
+        specialAddPanel.add(button, new GridBagConstraints(
+                0,
+                0,
+                1,
+                1,
+                1,
+                1,
+                GridBagConstraints.CENTER,
+                GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0),
+                0,
+                0
+        ));
+        shouldDoPanel.setSpecialItemAddButton(specialAddPanel);
     }
 
     public void setInProgressTasks(List<String> tasks) {
