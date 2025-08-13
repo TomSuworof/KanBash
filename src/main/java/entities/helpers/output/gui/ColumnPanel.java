@@ -93,7 +93,7 @@ public class ColumnPanel extends JPanel {
     public void setSpecialItemAddButton(JPanel panel) {
         columnItemsList.add(panel, new GridBagConstraints(
                 0,
-                0,
+                columnItemsList.getComponents().length + 1,
                 1,
                 1,
                 1,
