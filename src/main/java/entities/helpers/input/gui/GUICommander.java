@@ -7,19 +7,17 @@ import entities.content.Numeration;
 import entities.helpers.output.Printer;
 import entities.helpers.output.gui.BoardPanel;
 
+import entities.helpers.output.gui.MenuBar;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class GUICommander implements Client {
-    private final ContentAdapter contentAdapter;
-    private final BoardPanel boardPanel;
-    private final Printer printer;
-
-    public GUICommander(ContentAdapter contentAdapter, BoardPanel boardPanel, Printer printer) {
-        this.contentAdapter = contentAdapter;
-        this.boardPanel = boardPanel;
-        this.printer = printer;
-    }
+public record GUICommander(
+        ContentAdapter contentAdapter,
+        MenuBar menuBar,
+        BoardPanel boardPanel,
+        Printer printer
+) implements Client {
 
     @Override
     public void start() {
@@ -28,28 +26,27 @@ public class GUICommander implements Client {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        mainFrame.setJMenuBar(menuBar);
+        initMenu();
+
         mainFrame.getContentPane().add(boardPanel);
+        initBoardPanel();
 
-        boolean preferSecondaryMonitor = true;
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        var monitors = env.getScreenDevices();
+        resolveMonitors(mainFrame);
 
-        if (preferSecondaryMonitor && monitors.length > 1) {
-            var secondaryMonitor = monitors[1];
-            var secondaryMonitorBounds = secondaryMonitor.getDefaultConfiguration().getBounds();
-            mainFrame.setLocation(
-                    secondaryMonitorBounds.x + secondaryMonitorBounds.width / 4,
-                    secondaryMonitorBounds.y + secondaryMonitorBounds.height / 4
-            );
-        }
-
-        init();
         mainFrame.setVisible(true);
 //        printer.printWelcomePage();
         printer.print();
     }
 
-    public void init() {
+    private void initMenu() {
+        menuBar.addMenuBarListener(newTheme -> {
+            contentAdapter.setTheme(newTheme);
+            printer.print();
+        });
+    }
+
+    private void initBoardPanel() {
         boardPanel.addBoardListener(new BoardPanel.BoardListener() {
             @Override
             public void onNewTask(Column column, String taskText) {
@@ -87,5 +84,20 @@ public class GUICommander implements Client {
                 printer.print();
             }
         });
+    }
+
+    private void resolveMonitors(JFrame mainFrame) {
+        boolean preferSecondaryMonitor = true;
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        var monitors = env.getScreenDevices();
+
+        if (preferSecondaryMonitor && monitors.length > 1) {
+            var secondaryMonitor = monitors[1];
+            var secondaryMonitorBounds = secondaryMonitor.getDefaultConfiguration().getBounds();
+            mainFrame.setLocation(
+                    secondaryMonitorBounds.x + secondaryMonitorBounds.width / 4,
+                    secondaryMonitorBounds.y + secondaryMonitorBounds.height / 4
+            );
+        }
     }
 }

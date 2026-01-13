@@ -1,6 +1,7 @@
 package entities.content;
 
 import com.google.gson.Gson;
+import entities.helpers.output.gui.Theme;
 
 import java.io.File;
 import java.io.FileReader;
@@ -63,6 +64,11 @@ public class JsonFileContentAdapter implements ContentAdapter {
         } else {
             return Optional.of(tasks.get(index));
         }
+    }
+
+    @Override
+    public Optional<Theme> getTheme() {
+        return Optional.ofNullable(Theme.byName(content.theme));
     }
 
     @Override
@@ -145,6 +151,12 @@ public class JsonFileContentAdapter implements ContentAdapter {
             default:
                 break;
         }
+        update();
+    }
+
+    @Override
+    public void setTheme(Theme theme) {
+        content.theme = theme.name();
         update();
     }
 

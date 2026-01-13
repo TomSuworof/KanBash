@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BoardPanel extends JPanel {
     private final ColumnPanel shouldDoPanel;
@@ -185,7 +186,7 @@ public class BoardPanel extends JPanel {
         JPanel specialAddPanel = new JPanel(new GridBagLayout());
         JButton button = new JButton("New task");
         button.setBorderPainted(false);
-        button.setBackground(new Color(0xeeeeee));
+        button.setBackground(Optional.ofNullable(UIManager.getColor("Button.background")).orElse(new Color(0xeeeeee)));
         specialAddPanel.setBorder(BorderFactory.createDashedBorder(
                 Color.GRAY,
                 1,

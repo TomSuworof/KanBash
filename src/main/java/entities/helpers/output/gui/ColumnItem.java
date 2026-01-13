@@ -2,6 +2,7 @@ package entities.helpers.output.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Optional;
 
 class ColumnItem extends JPanel {
     private final JTextArea textArea;
@@ -21,7 +22,7 @@ class ColumnItem extends JPanel {
         textArea.setWrapStyleWord(false);
         textArea.setText(formattedValue);
 
-        var backgroundColor = Color.white;
+        var backgroundColor = Optional.ofNullable(UIManager.getColor("Panel.background")).orElse(Color.white);
         setBackground(backgroundColor);
         textArea.setBackground(backgroundColor);
 
