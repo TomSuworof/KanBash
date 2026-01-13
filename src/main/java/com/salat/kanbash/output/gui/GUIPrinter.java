@@ -1,8 +1,8 @@
-package entities.helpers.output.gui;
+package com.salat.kanbash.output.gui;
 
-import entities.content.Column;
-import entities.content.ContentAdapter;
-import entities.helpers.output.Printer;
+import com.salat.kanbash.content.Column;
+import com.salat.kanbash.content.ContentAdapter;
+import com.salat.kanbash.output.Printer;
 
 import javax.swing.*;
 import java.util.List;

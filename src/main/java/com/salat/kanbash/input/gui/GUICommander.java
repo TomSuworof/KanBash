@@ -1,13 +1,13 @@
-package entities.helpers.input.gui;
+package com.salat.kanbash.input.gui;
 
-import entities.client.Client;
-import entities.content.Column;
-import entities.content.ContentAdapter;
-import entities.content.Numeration;
-import entities.helpers.output.Printer;
-import entities.helpers.output.gui.BoardPanel;
+import com.salat.kanbash.input.Client;
+import com.salat.kanbash.content.Column;
+import com.salat.kanbash.content.ContentAdapter;
+import com.salat.kanbash.content.Numeration;
+import com.salat.kanbash.output.Printer;
+import com.salat.kanbash.output.gui.BoardPanel;
 
-import entities.helpers.output.gui.MenuBar;
+import com.salat.kanbash.output.gui.MenuBar;
 
 import javax.swing.*;
 import java.awt.*;

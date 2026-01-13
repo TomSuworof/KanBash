@@ -1,4 +1,4 @@
-package entities.helpers.output.gui;
+package com.salat.kanbash.output.gui;
 
 import javax.swing.*;
 import java.awt.*;

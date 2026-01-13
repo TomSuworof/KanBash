@@ -1,6 +1,6 @@
-package entities.helpers.output.common;
+package com.salat.kanbash.output.common;
 
-import entities.helpers.output.Printer;
+import com.salat.kanbash.output.Printer;
 
 import java.util.List;
 

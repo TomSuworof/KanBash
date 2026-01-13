@@ -1,10 +1,10 @@
-import entities.client.Client;
-import entities.content.ContentAdapter;
-import entities.content.JsonFileContentAdapter;
-import entities.helpers.input.gui.GUICommander;
-import entities.helpers.output.gui.BoardPanel;
-import entities.helpers.output.gui.GUIPrinter;
-import entities.helpers.output.gui.MenuBar;
+import com.salat.kanbash.input.Client;
+import com.salat.kanbash.content.ContentAdapter;
+import com.salat.kanbash.content.JsonFileContentAdapter;
+import com.salat.kanbash.input.gui.GUICommander;
+import com.salat.kanbash.output.gui.BoardPanel;
+import com.salat.kanbash.output.gui.GUIPrinter;
+import com.salat.kanbash.output.gui.MenuBar;
 
 public class MainGUI {
     public static void main(String[] args) {

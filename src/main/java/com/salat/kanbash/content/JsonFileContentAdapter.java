@@ -1,7 +1,7 @@
-package entities.content;
+package com.salat.kanbash.content;
 
 import com.google.gson.Gson;
-import entities.helpers.output.gui.Theme;
+import com.salat.kanbash.output.gui.Theme;
 
 import java.io.File;
 import java.io.FileReader;

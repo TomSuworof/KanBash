@@ -1,4 +1,4 @@
-package entities.content;
+package com.salat.kanbash.content;
 
 public enum Column {
     SHOULD_DO,

@@ -1,6 +1,6 @@
-package entities.content;
+package com.salat.kanbash.content;
 
-import entities.helpers.output.gui.Theme;
+import com.salat.kanbash.output.gui.Theme;
 
 import java.util.List;
 import java.util.Optional;

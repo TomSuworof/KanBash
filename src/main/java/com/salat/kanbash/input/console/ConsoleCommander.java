@@ -1,10 +1,10 @@
-package entities.helpers.input.console;
+package com.salat.kanbash.input.console;
 
-import entities.client.Client;
-import entities.content.Column;
-import entities.content.ContentAdapter;
-import entities.content.Numeration;
-import entities.helpers.output.Printer;
+import com.salat.kanbash.input.Client;
+import com.salat.kanbash.content.Column;
+import com.salat.kanbash.content.ContentAdapter;
+import com.salat.kanbash.content.Numeration;
+import com.salat.kanbash.output.Printer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

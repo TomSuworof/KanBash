@@ -1,4 +1,4 @@
-package entities.content;
+package com.salat.kanbash.content;
 
 import java.util.ArrayList;
 import java.util.List;

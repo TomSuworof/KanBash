@@ -1,7 +1,7 @@
-package entities.helpers.output.gui;
+package com.salat.kanbash.output.gui;
 
-import entities.content.Column;
-import entities.content.Numeration;
+import com.salat.kanbash.content.Column;
+import com.salat.kanbash.content.Numeration;
 
 import javax.swing.*;
 import java.awt.*;
