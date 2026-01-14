@@ -3,6 +3,7 @@ package com.salat.kanbash.output.console;
 import com.salat.kanbash.content.Column;
 import com.salat.kanbash.content.ContentAdapter;
 import com.salat.kanbash.output.Printer;
+import com.salat.kanbash.output.common.Numeration;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class ConsolePrinter implements Printer {
     private List<String> format(List<String> tasks) {
         List<String> newTasks;
 
-        if (contentAdapter.isNumerationUsed()) {
+        if (contentAdapter.getNumeration() == Numeration.NUMBER) {
             AtomicInteger index = new AtomicInteger();
             newTasks = tasks.stream().map(task -> index.getAndIncrement() + ". " + task).collect(Collectors.toList());
         } else {

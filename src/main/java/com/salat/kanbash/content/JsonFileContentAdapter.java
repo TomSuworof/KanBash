@@ -1,6 +1,7 @@
 package com.salat.kanbash.content;
 
 import com.google.gson.Gson;
+import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.gui.Theme;
 
 import java.io.File;
@@ -36,13 +37,13 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public boolean isNumerationUsed() {
-        return content.isNumerationUsed;
+    public Numeration getNumeration() {
+        return content.numeration;
     }
 
     @Override
-    public void setNumerationUsage(boolean useNumeration) {
-        content.isNumerationUsed = useNumeration;
+    public void setNumeration(Numeration numeration) {
+        content.numeration = numeration;
         update();
     }
 
@@ -67,8 +68,8 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public Optional<Theme> getTheme() {
-        return Optional.ofNullable(Theme.byName(content.theme));
+    public Theme getTheme() {
+        return content.theme;
     }
 
     @Override
@@ -156,7 +157,7 @@ public class JsonFileContentAdapter implements ContentAdapter {
 
     @Override
     public void setTheme(Theme theme) {
-        content.theme = theme.name();
+        content.theme = theme;
         update();
     }
 

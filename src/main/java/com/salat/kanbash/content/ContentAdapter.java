@@ -1,20 +1,21 @@
 package com.salat.kanbash.content;
 
+import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.gui.Theme;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ContentAdapter {
-    boolean isNumerationUsed();
+    Numeration getNumeration();
 
-    void setNumerationUsage(boolean isNumeration);
+    void setNumeration(Numeration numeration);
 
     List<String> getTasks(Column column);
 
     Optional<String> getTask(Column column, int index);
 
-    Optional<Theme> getTheme();
+    Theme getTheme();
 
     void addTask(Column column, String taskText);
 

@@ -3,7 +3,7 @@ package com.salat.kanbash.input.console;
 import com.salat.kanbash.input.Client;
 import com.salat.kanbash.content.Column;
 import com.salat.kanbash.content.ContentAdapter;
-import com.salat.kanbash.content.Numeration;
+import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.Printer;
 
 import java.io.BufferedReader;
@@ -112,16 +112,8 @@ public class ConsoleCommander implements Client {
                 }
                 break;
             case "numeration":
-                switch (numerationFromName(message)) {
-                    case NUMBER:
-                        contentAdapter.setNumerationUsage(true);
-                        break;
-                    case HYPHEN:
-                        contentAdapter.setNumerationUsage(false);
-                        break;
-                    default:
-                        break;
-                }
+                contentAdapter.setNumeration(numerationFromName(message));
+                break;
             case "exit":
                 toExit = true;
                 break;

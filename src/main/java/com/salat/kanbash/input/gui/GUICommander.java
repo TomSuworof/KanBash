@@ -3,11 +3,12 @@ package com.salat.kanbash.input.gui;
 import com.salat.kanbash.input.Client;
 import com.salat.kanbash.content.Column;
 import com.salat.kanbash.content.ContentAdapter;
-import com.salat.kanbash.content.Numeration;
+import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.Printer;
 import com.salat.kanbash.output.gui.BoardPanel;
 
 import com.salat.kanbash.output.gui.MenuBar;
+import com.salat.kanbash.output.gui.Theme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,9 +41,18 @@ public record GUICommander(
     }
 
     private void initMenu() {
-        menuBar.addMenuBarListener(newTheme -> {
-            contentAdapter.setTheme(newTheme);
-            printer.print();
+        menuBar.addMenuBarListener(new MenuBar.MenuBarListener() {
+            @Override
+            public void onNumerationChanged(Numeration numeration) {
+                contentAdapter.setNumeration(numeration);
+                printer.print();
+            }
+
+            @Override
+            public void onThemeChanged(Theme newTheme) {
+                contentAdapter.setTheme(newTheme);
+                printer.print();
+            }
         });
     }
 
@@ -75,12 +85,6 @@ public record GUICommander(
             @Override
             public void onEdit(Column column, int index, String taskText) {
                 contentAdapter.editTask(column, index, taskText);
-                printer.print();
-            }
-
-            @Override
-            public void onSetNumeration(Numeration numeration) {
-                contentAdapter.setNumerationUsage(numeration == Numeration.NUMBER);
                 printer.print();
             }
         });

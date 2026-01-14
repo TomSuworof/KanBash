@@ -1,5 +1,7 @@
 package com.salat.kanbash.output.gui;
 
+import com.salat.kanbash.output.common.Numeration;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -23,7 +25,7 @@ public class ColumnPanel extends JPanel {
     private final JPanel columnItemsList;
     private final List<? extends ColumnItemAction> columnItemActions;
 
-    private boolean isNumerationUsed = false;
+    private Numeration numeration = Numeration.HYPHEN;
 
     public ColumnPanel(
             String name,
@@ -86,8 +88,8 @@ public class ColumnPanel extends JPanel {
         });
     }
 
-    public void setNumerationUsed(boolean isNumerationUsed) {
-        this.isNumerationUsed = isNumerationUsed;
+    public void setNumeration(Numeration numeration) {
+        this.numeration = numeration;
     }
 
     public void setSpecialItemAddButton(JPanel panel) {
@@ -126,7 +128,7 @@ public class ColumnPanel extends JPanel {
         for (int i = 0; i < items.size(); i++) {
             final String item = items.get(i);
             final int index = i;
-            ColumnItem itemPanel = new ColumnItem(index, item, isNumerationUsed);
+            ColumnItem itemPanel = new ColumnItem(index, item, numeration);
 
             JPopupMenu menu = new JPopupMenu();
             for (var columnItemAction : columnItemActions) {

@@ -1,5 +1,7 @@
 package com.salat.kanbash.output.gui;
 
+import com.salat.kanbash.output.common.Numeration;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Optional;
@@ -7,14 +9,15 @@ import java.util.Optional;
 class ColumnItem extends JPanel {
     private final JTextArea textArea;
 
-    public ColumnItem(int index, String value, boolean isNumerationUsed) {
+    public ColumnItem(int index, String value, Numeration numeration) {
         setLayout(new GridBagLayout());
 
         setBorder(BorderFactory.createRaisedSoftBevelBorder());
 
-        String formattedValue = isNumerationUsed ?
-                String.format("%d. %s", index, value) :
-                String.format("- %s", value);
+        String formattedValue = switch (numeration) {
+            case NUMBER -> String.format("%d. %s", index, value);
+            case HYPHEN -> String.format("- %s", value);
+        };
 
         textArea = new JTextArea();
         textArea.setEditable(false);

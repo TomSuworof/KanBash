@@ -3,6 +3,7 @@ package com.salat.kanbash.output.gui;
 import com.salat.kanbash.content.Column;
 import com.salat.kanbash.content.ContentAdapter;
 import com.salat.kanbash.output.Printer;
+import com.salat.kanbash.output.common.Numeration;
 
 import javax.swing.*;
 import java.util.List;
@@ -15,13 +16,15 @@ public record GUIPrinter(
 
     @Override
     public void print() {
-        Theme theme = contentAdapter.getTheme().orElse(Theme.SYSTEM);
+        Numeration numeration = contentAdapter.getNumeration();
+        Theme theme = contentAdapter.getTheme();
         List<String> shouldDoForOutput = contentAdapter.getTasks(Column.SHOULD_DO);
         List<String> inProgressForOutput = contentAdapter.getTasks(Column.IN_PROGRESS);
         List<String> doneForOutput = contentAdapter.getTasks(Column.DONE);
 
+        menuBar.setNumeration(numeration);
         menuBar.setTheme(theme);
-        boardPanel.setNumerationSet(contentAdapter.isNumerationUsed());
+        boardPanel.setNumeration(numeration);
         boardPanel.setShouldDoTasks(shouldDoForOutput);
         boardPanel.setInProgressTasks(inProgressForOutput);
         boardPanel.setDoneTasks(doneForOutput);

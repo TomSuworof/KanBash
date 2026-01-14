@@ -1,7 +1,7 @@
 package com.salat.kanbash.output.gui;
 
 import com.salat.kanbash.content.Column;
-import com.salat.kanbash.content.Numeration;
+import com.salat.kanbash.output.common.Numeration;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +13,6 @@ public class BoardPanel extends JPanel {
     private final ColumnPanel shouldDoPanel;
     private final ColumnPanel inProgressPanel;
     private final ColumnPanel donePanel;
-
-    private final JRadioButton hyphen;
-    private final JRadioButton number;
 
     private final List<BoardListener> listeners = new ArrayList<>();
 
@@ -160,24 +157,6 @@ public class BoardPanel extends JPanel {
         columnPanel.add(donePanel, gbc);
 
         add(columnPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-
-        JPanel bottomPanel = new JPanel(new GridBagLayout());
-
-        JPanel numerationSelectionPanel = new JPanel();
-        JLabel numerationLabel = new JLabel("Numeration: ");
-        ButtonGroup numerationSelector = new ButtonGroup();
-        hyphen = new JRadioButton("Hyphen");
-        hyphen.addActionListener(e -> listeners.forEach(l -> l.onSetNumeration(Numeration.HYPHEN)));
-        number = new JRadioButton("Number");
-        number.addActionListener(e -> listeners.forEach(l -> l.onSetNumeration(Numeration.NUMBER)));
-        numerationSelector.add(hyphen);
-        numerationSelector.add(number);
-        numerationSelectionPanel.add(numerationLabel);
-        numerationSelectionPanel.add(hyphen);
-        numerationSelectionPanel.add(number);
-        bottomPanel.add(numerationSelectionPanel, new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-
-        add(bottomPanel, new GridBagConstraints(0, 1, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     }
 
     public void setShouldDoTasks(List<String> tasks) {
@@ -223,16 +202,10 @@ public class BoardPanel extends JPanel {
         donePanel.setItems(tasks);
     }
 
-    public void setNumerationSet(boolean isNumerationUsed) {
-        shouldDoPanel.setNumerationUsed(isNumerationUsed);
-        inProgressPanel.setNumerationUsed(isNumerationUsed);
-        donePanel.setNumerationUsed(isNumerationUsed);
-
-        if (isNumerationUsed) {
-            number.setSelected(true);
-        } else {
-            hyphen.setSelected(true);
-        }
+    public void setNumeration(Numeration numeration) {
+        shouldDoPanel.setNumeration(numeration);
+        inProgressPanel.setNumeration(numeration);
+        donePanel.setNumeration(numeration);
     }
 
     public void addBoardListener(BoardListener listener) {
@@ -249,7 +222,5 @@ public class BoardPanel extends JPanel {
         void onRemove(Column column, int index);
 
         void onEdit(Column column, int index, String taskText);
-
-        void onSetNumeration(Numeration numeration);
     }
 }
