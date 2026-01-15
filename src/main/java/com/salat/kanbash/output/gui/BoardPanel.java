@@ -71,6 +71,9 @@ public class BoardPanel extends JPanel {
         @Override
         public void execute(int index) {
             String taskText = JOptionPane.showInputDialog("New task text");
+            if (taskText == null) {
+                return;
+            }
             listeners.forEach(l -> l.onEdit(column, index, taskText));
         }
     }
