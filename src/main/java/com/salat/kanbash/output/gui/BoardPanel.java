@@ -131,30 +131,11 @@ public class BoardPanel extends JPanel {
                 )
         );
 
-        JPanel columnPanel = new JPanel(new GridBagLayout());
+        JPanel columnPanel = new JPanel(new GridLayout(1, 3, 0, 0));
 
-        GridBagConstraints gbc = new GridBagConstraints(
-                0,
-                0,
-                1,
-                1,
-                1,
-                1,
-                GridBagConstraints.NORTHWEST,
-                GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0),
-                0,
-                0
-        );
-
-        gbc.gridx = 0;
-        columnPanel.add(shouldDoPanel, gbc);
-
-        gbc.gridx = 1;
-        columnPanel.add(inProgressPanel, gbc);
-
-        gbc.gridx = 2;
-        columnPanel.add(donePanel, gbc);
+        columnPanel.add(shouldDoPanel);
+        columnPanel.add(inProgressPanel);
+        columnPanel.add(donePanel);
 
         add(columnPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     }
