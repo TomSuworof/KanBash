@@ -3,6 +3,7 @@ package com.salat.kanbash.content;
 import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.gui.Theme;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,8 @@ public interface ContentAdapter {
 
     Theme getTheme();
 
+    Rectangle getLastWindowLocation();
+
     void addTask(Column column, String taskText);
 
     void moveTask(Column oldColumn, int index, Column newColumn) throws IndexOutOfBoundsException;
@@ -28,4 +31,6 @@ public interface ContentAdapter {
     void editTask(Column column, int index, String message);
 
     void setTheme(Theme theme);
+
+    void setLastWindowLocation(Rectangle location);
 }
