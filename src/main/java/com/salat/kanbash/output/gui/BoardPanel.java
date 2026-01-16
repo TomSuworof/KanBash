@@ -5,6 +5,8 @@ import com.salat.kanbash.output.common.Numeration;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -143,9 +145,28 @@ public class BoardPanel extends JPanel {
         shouldDoPanel.setItems(tasks);
 
         JPanel specialAddPanel = new JPanel(new BorderLayout());
-        JButton button = new JButton("New task");
-        button.setBorderPainted(false);
-        button.setBackground(Optional.ofNullable(UIManager.getColor("Button.background")).orElse(new Color(0xeeeeee)));
+
+        // Action
+
+        String addTaskActionName = "addTaskAction";
+        AbstractAction addTaskAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String taskText = JOptionPane.showInputDialog("Write task text");
+                if (taskText == null) {
+                    return;
+                }
+                listeners.forEach(l -> l.onNewTask(Column.SHOULD_DO, taskText));
+            }
+        };
+        getActionMap().put(addTaskActionName, addTaskAction);
+
+        // Button
+
+        JButton addTaskButton = new JButton("New task");
+        addTaskButton.addActionListener(addTaskAction);
+        addTaskButton.setBorderPainted(false);
+        addTaskButton.setBackground(Optional.ofNullable(UIManager.getColor("Button.background")).orElse(new Color(0xeeeeee)));
         specialAddPanel.setBorder(BorderFactory.createDashedBorder(
                 Color.GRAY,
                 1,
@@ -153,12 +174,15 @@ public class BoardPanel extends JPanel {
                 2,
                 true
         ));
-        button.addActionListener(e -> {
-            String taskText = JOptionPane.showInputDialog(this, "Write task text");
-            listeners.forEach(l -> l.onNewTask(Column.SHOULD_DO, taskText));
-        });
 
-        specialAddPanel.add(button, BorderLayout.CENTER);
+        // Key binding
+
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), // Ctrl+N or Cmd+N
+                addTaskActionName
+        );
+
+        specialAddPanel.add(addTaskButton, BorderLayout.CENTER);
         shouldDoPanel.setSpecialItemAddButton(specialAddPanel);
     }
 
