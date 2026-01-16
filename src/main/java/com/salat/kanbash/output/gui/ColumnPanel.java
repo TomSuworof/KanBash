@@ -43,6 +43,7 @@ public class ColumnPanel extends JPanel {
         setLayout(new BorderLayout());
 
         JLabel columnNameLabel = new JLabel(name);
+        columnNameLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         add(columnNameLabel, BorderLayout.NORTH);
 
         JPopupMenu menu = new JPopupMenu();
