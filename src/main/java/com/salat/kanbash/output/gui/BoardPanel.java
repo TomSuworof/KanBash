@@ -97,7 +97,7 @@ public class BoardPanel extends JPanel {
     }
 
     public BoardPanel() {
-        setLayout(new GridBagLayout());
+        setLayout(new GridLayout(1, 3, 0, 0));
 
         shouldDoPanel = new ColumnPanel(
                 "SHOULD-DO",
@@ -134,19 +134,15 @@ public class BoardPanel extends JPanel {
                 )
         );
 
-        JPanel columnPanel = new JPanel(new GridLayout(1, 3, 0, 0));
-
-        columnPanel.add(shouldDoPanel);
-        columnPanel.add(inProgressPanel);
-        columnPanel.add(donePanel);
-
-        add(columnPanel, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        add(shouldDoPanel);
+        add(inProgressPanel);
+        add(donePanel);
     }
 
     public void setShouldDoTasks(List<String> tasks) {
         shouldDoPanel.setItems(tasks);
 
-        JPanel specialAddPanel = new JPanel(new GridBagLayout());
+        JPanel specialAddPanel = new JPanel(new BorderLayout());
         JButton button = new JButton("New task");
         button.setBorderPainted(false);
         button.setBackground(Optional.ofNullable(UIManager.getColor("Button.background")).orElse(new Color(0xeeeeee)));
@@ -162,19 +158,7 @@ public class BoardPanel extends JPanel {
             listeners.forEach(l -> l.onNewTask(Column.SHOULD_DO, taskText));
         });
 
-        specialAddPanel.add(button, new GridBagConstraints(
-                0,
-                0,
-                1,
-                1,
-                1,
-                1,
-                GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0),
-                0,
-                0
-        ));
+        specialAddPanel.add(button, BorderLayout.CENTER);
         shouldDoPanel.setSpecialItemAddButton(specialAddPanel);
     }
 

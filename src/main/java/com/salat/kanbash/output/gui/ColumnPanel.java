@@ -4,9 +4,6 @@ import com.salat.kanbash.output.common.Numeration;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.Arrays;
 import java.util.List;
 
 public class ColumnPanel extends JPanel {
@@ -22,7 +19,17 @@ public class ColumnPanel extends JPanel {
         void execute(int index);
     }
 
-    private final JPanel columnItemsList;
+    private static class ColumnItemsList extends JPanel {
+        @Override
+        public Dimension getPreferredSize() {
+            // Hack to keep column width equal to viewport and resize child components
+            int width = getParent().getSize().width;
+            int height = super.getPreferredSize().height;
+            return new Dimension(width, height);
+        }
+    }
+
+    private final ColumnItemsList columnItemsList;
     private final List<? extends ColumnItemAction> columnItemActions;
 
     private Numeration numeration = Numeration.HYPHEN;
@@ -33,23 +40,10 @@ public class ColumnPanel extends JPanel {
             List<? extends ColumnItemAction> columnItemActions
     ) {
         this.columnItemActions = columnItemActions;
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout());
 
         JLabel columnNameLabel = new JLabel(name);
-        add(columnNameLabel, new GridBagConstraints(
-                        0,
-                        0,
-                        1,
-                        1,
-                        1,
-                        0,
-                        GridBagConstraints.NORTHWEST,
-                        GridBagConstraints.HORIZONTAL,
-                        new Insets(0, 0, 0, 0),
-                        0,
-                        0
-                )
-        );
+        add(columnNameLabel, BorderLayout.NORTH);
 
         JPopupMenu menu = new JPopupMenu();
         for (var columnAction : columnActions) {
@@ -59,33 +53,11 @@ public class ColumnPanel extends JPanel {
         }
         columnNameLabel.setComponentPopupMenu(menu);
 
-        columnItemsList = new JPanel(new GridBagLayout());
+        columnItemsList = new ColumnItemsList();
+        columnItemsList.setLayout(new GridBagLayout());
         JScrollPane columnItemsScroll = new JScrollPane(columnItemsList);
-        columnItemsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         columnItemsScroll.getVerticalScrollBar().setUnitIncrement(10);
-        add(columnItemsScroll, new GridBagConstraints(
-                0,
-                1,
-                1,
-                1,
-                1,
-                1,
-                GridBagConstraints.NORTHWEST,
-                GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0),
-                0,
-                0
-        ));
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                Arrays.stream(columnItemsList.getComponents())
-                        .filter(c -> c instanceof ColumnItem)
-                        .map(c -> (ColumnItem) c)
-                        .forEach(c -> c.onParentResized(e.getComponent()));
-            }
-        });
+        add(columnItemsScroll, BorderLayout.CENTER);
     }
 
     public void setNumeration(Numeration numeration) {
@@ -144,6 +116,5 @@ public class ColumnPanel extends JPanel {
             columnItemsList.add(itemPanel, gbc);
             gbc.gridy++;
         }
-        SwingUtilities.invokeLater(columnItemsList::updateUI);
     }
 }
