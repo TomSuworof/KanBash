@@ -4,6 +4,7 @@ import com.salat.kanbash.output.common.Numeration;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.util.Optional;
 
 class ColumnItem extends JPanel {
@@ -34,5 +35,11 @@ class ColumnItem extends JPanel {
     public void setComponentPopupMenu(JPopupMenu popup) {
         super.setComponentPopupMenu(popup);
         textPane.setComponentPopupMenu(popup);
+    }
+
+    @Override
+    public synchronized void addMouseListener(MouseListener l) {
+        super.addMouseListener(l);
+        textPane.addMouseListener(l);
     }
 }

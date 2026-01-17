@@ -4,6 +4,8 @@ import com.salat.kanbash.output.common.Numeration;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ColumnPanel extends JPanel {
@@ -17,6 +19,10 @@ public class ColumnPanel extends JPanel {
         String getActionName();
 
         void execute(int index);
+
+        default boolean isPrimaryAction() {
+            return false;
+        }
     }
 
     private static class ColumnItemsList extends JPanel {
@@ -102,6 +108,18 @@ public class ColumnPanel extends JPanel {
             final String item = items.get(i);
             final int index = i;
             ColumnItem itemPanel = new ColumnItem(index, item, numeration);
+
+            itemPanel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
+                        columnItemActions.stream()
+                                .filter(ColumnItemAction::isPrimaryAction)
+                                .findFirst()
+                                .ifPresent(action -> action.execute(index));
+                    }
+                }
+            });
 
             JPopupMenu menu = new JPopupMenu();
             for (var columnItemAction : columnItemActions) {

@@ -56,6 +56,11 @@ public class BoardPanel extends JPanel {
         public void execute(int index) {
             listeners.forEach(l -> l.onMove(oldColumn, index, newColumn));
         }
+
+        @Override
+        public boolean isPrimaryAction() {
+            return true;
+        }
     }
 
     private class EditAction implements ColumnPanel.ColumnItemAction {
