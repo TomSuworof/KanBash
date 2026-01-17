@@ -8,8 +8,13 @@ import com.salat.kanbash.output.gui.BoardPanel;
 import com.salat.kanbash.output.gui.GUIPrinter;
 import com.salat.kanbash.output.gui.MenuBar;
 
+import javax.swing.*;
+
 public class MainGUI {
     public static void main(String[] args) {
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KanBash");
+
         ContentAdapter contentAdapter = new JsonFileContentAdapter();
 
         MenuBar menuBar = new MenuBar();
@@ -25,6 +30,7 @@ public class MainGUI {
                         boardPanel
                 )
         );
-        client.start();
+
+        SwingUtilities.invokeLater(client::start);
     }
 }
