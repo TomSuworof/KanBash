@@ -1,3 +1,5 @@
+package com.salat.kanbash;
+
 import com.salat.kanbash.input.Client;
 import com.salat.kanbash.content.ContentAdapter;
 import com.salat.kanbash.content.JsonFileContentAdapter;

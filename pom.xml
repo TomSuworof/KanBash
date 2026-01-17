@@ -40,7 +40,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>MainGUI</mainClass>
+                            <mainClass>com.salat.kanbash.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
