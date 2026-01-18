@@ -47,9 +47,9 @@ public record GUICommander(
 
         resetLocation(mainFrame);
 
+        printer.print();
         mainFrame.setVisible(true);
 //        printer.printWelcomePage();
-        printer.print();
     }
 
     private void initMenu() {
