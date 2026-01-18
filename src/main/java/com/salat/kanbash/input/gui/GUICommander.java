@@ -10,11 +10,16 @@ import com.salat.kanbash.output.gui.MenuBar;
 import com.salat.kanbash.output.gui.Theme;
 
 import javax.swing.*;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 public record GUICommander(
         ContentAdapter contentAdapter,
+        UndoManager undoManager,
         MenuBar menuBar,
         BoardPanel boardPanel,
         Printer printer
@@ -65,6 +70,13 @@ public record GUICommander(
                 contentAdapter.setTheme(newTheme);
                 printer.print();
             }
+
+            @Override
+            public void onUndo() {
+                if (undoManager.canUndo()) {
+                    undoManager.undo();
+                }
+            }
         });
     }
 
@@ -74,30 +86,78 @@ public record GUICommander(
             public void onNewTask(Column column, String taskText) {
                 contentAdapter.addTask(column, taskText, contentAdapter.getTasks(column).size());
                 printer.print();
+
+                undoManager.addEdit(new AbstractUndoableEdit() {
+                    @Override
+                    public void undo() throws CannotUndoException {
+                        contentAdapter.removeTask(column, contentAdapter.getTasks(column).size());
+                        printer.print();
+                    }
+                });
             }
 
             @Override
             public void onMove(Column oldColumn, int oldIndex, Column newColumn) {
                 contentAdapter.moveTask(oldColumn, oldIndex, newColumn, contentAdapter.getTasks(newColumn).size());
                 printer.print();
+
+                undoManager.addEdit(new AbstractUndoableEdit() {
+                    @Override
+                    public void undo() throws CannotUndoException {
+                        contentAdapter.moveTask(newColumn, contentAdapter.getTasks(newColumn).size() - 1, oldColumn, oldIndex);
+                        printer.print();
+                    }
+                });
             }
 
             @Override
             public void onClear(Column column) {
+                var oldTasks = new ArrayList<>(contentAdapter.getTasks(column));
+
                 contentAdapter.clear(column);
                 printer.print();
+
+                undoManager.addEdit(new AbstractUndoableEdit() {
+                    @Override
+                    public void undo() throws CannotUndoException {
+                        for (var oldTask : oldTasks) {
+                            contentAdapter.addTask(column, oldTask, contentAdapter.getTasks(column).size());
+                        }
+                        printer.print();
+                    }
+                });
             }
 
             @Override
             public void onRemove(Column column, int index) {
+                var oldTask = contentAdapter.getTask(column, index).orElseThrow();
+
                 contentAdapter.removeTask(column, index);
                 printer.print();
+
+                undoManager.addEdit(new AbstractUndoableEdit() {
+                    @Override
+                    public void undo() throws CannotUndoException {
+                        contentAdapter.addTask(column, oldTask, index);
+                        printer.print();
+                    }
+                });
             }
 
             @Override
             public void onEdit(Column column, int index, String taskText) {
+                var oldTask = contentAdapter.getTask(column, index).orElseThrow();
+
                 contentAdapter.editTask(column, index, taskText);
                 printer.print();
+
+                undoManager.addEdit(new AbstractUndoableEdit() {
+                    @Override
+                    public void undo() throws CannotUndoException {
+                        contentAdapter.editTask(column, index, oldTask);
+                        printer.print();
+                    }
+                });
             }
         });
     }

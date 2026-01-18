@@ -3,6 +3,9 @@ package com.salat.kanbash.output.gui;
 import com.salat.kanbash.output.common.Numeration;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +46,36 @@ public class MenuBar extends JMenuBar {
         }
         viewMenu.add(themeMenu);
 
+        JMenu editMenu = new JMenu("Edit");
+
+        {
+            // Action
+
+            String undoActionName = "undoAction";
+            AbstractAction undoAction = new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    listeners.forEach(MenuBarListener::onUndo);
+                }
+            };
+            getActionMap().put(undoActionName, undoAction);
+
+            // Button
+
+            JMenuItem undoButton = new JMenuItem("Undo");
+            undoButton.addActionListener(undoAction);
+            editMenu.add(undoButton);
+
+            // Key binding
+
+            getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()),
+                    undoActionName
+            );
+        }
+
         add(viewMenu);
+        add(editMenu);
     }
 
     public void setNumeration(Numeration numeration) {
@@ -72,5 +104,7 @@ public class MenuBar extends JMenuBar {
         void onNumerationChanged(Numeration numeration);
 
         void onThemeChanged(Theme newTheme);
+
+        void onUndo();
     }
 }

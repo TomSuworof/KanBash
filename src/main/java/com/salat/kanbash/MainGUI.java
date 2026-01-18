@@ -9,11 +9,14 @@ import com.salat.kanbash.output.gui.GUIPrinter;
 import com.salat.kanbash.output.gui.MenuBar;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 
 public class MainGUI {
     public static void main(String[] args) {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KanBash");
+
+        UndoManager undoManager = new UndoManager();
 
         ContentAdapter contentAdapter = new JsonFileContentAdapter();
 
@@ -22,6 +25,7 @@ public class MainGUI {
 
         Client client = new GUICommander(
                 contentAdapter,
+                undoManager,
                 menuBar,
                 boardPanel,
                 new GUIPrinter(
