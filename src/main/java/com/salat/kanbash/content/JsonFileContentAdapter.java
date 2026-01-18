@@ -79,16 +79,16 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public void addTask(Column column, String taskText) {
+    public void addTask(Column column, String taskText, int index) {
         switch (column) {
             case SHOULD_DO:
-                content.shouldDoTasks.add(taskText);
+                content.shouldDoTasks.add(index, taskText);
                 break;
             case IN_PROGRESS:
-                content.inProgressTasks.add(taskText);
+                content.inProgressTasks.add(index, taskText);
                 break;
             case DONE:
-                content.doneTasks.add(taskText);
+                content.doneTasks.add(index, taskText);
                 break;
             default:
                 break;
@@ -97,10 +97,10 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public void moveTask(Column oldColumn, int index, Column newColumn) throws IndexOutOfBoundsException {
-        String task = getTask(oldColumn, index).orElseThrow(IllegalArgumentException::new);
-        this.removeTask(oldColumn, index);
-        this.addTask(newColumn, task);
+    public void moveTask(Column oldColumn, int oldIndex, Column newColumn, int newIndex) throws IndexOutOfBoundsException {
+        String task = getTask(oldColumn, oldIndex).orElseThrow(IllegalArgumentException::new);
+        this.removeTask(oldColumn, oldIndex);
+        this.addTask(newColumn, task, newIndex);
     }
 
     @Override

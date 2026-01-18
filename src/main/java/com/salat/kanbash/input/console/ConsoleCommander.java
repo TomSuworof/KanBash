@@ -1,10 +1,10 @@
 package com.salat.kanbash.input.console;
 
-import com.salat.kanbash.input.Client;
 import com.salat.kanbash.content.Column;
 import com.salat.kanbash.content.ContentAdapter;
-import com.salat.kanbash.output.common.Numeration;
+import com.salat.kanbash.input.Client;
 import com.salat.kanbash.output.Printer;
+import com.salat.kanbash.output.common.Numeration;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,11 +41,11 @@ public class ConsoleCommander implements Client {
         String message = input.substring(command.length()).trim();
         switch (command) {
             case "new":
-                contentAdapter.addTask(Column.SHOULD_DO, message);
+                contentAdapter.addTask(Column.SHOULD_DO, message, contentAdapter.getTasks(Column.SHOULD_DO).size());
                 break;
             case "pick":
                 try {
-                    contentAdapter.moveTask(Column.SHOULD_DO, Integer.parseInt(message), Column.IN_PROGRESS);
+                    contentAdapter.moveTask(Column.SHOULD_DO, Integer.parseInt(message), Column.IN_PROGRESS, contentAdapter.getTasks(Column.IN_PROGRESS).size());
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. It was not a number");
                 } catch (IndexOutOfBoundsException e) {
@@ -54,7 +54,7 @@ public class ConsoleCommander implements Client {
                 break;
             case "done":
                 try {
-                    contentAdapter.moveTask(Column.IN_PROGRESS, Integer.parseInt(message), Column.DONE);
+                    contentAdapter.moveTask(Column.IN_PROGRESS, Integer.parseInt(message), Column.DONE, contentAdapter.getTasks(Column.DONE).size());
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. It was not a number");
                 } catch (IndexOutOfBoundsException indexEx) {

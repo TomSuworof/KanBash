@@ -20,9 +20,9 @@ public interface ContentAdapter {
 
     Rectangle getLastWindowLocation();
 
-    void addTask(Column column, String taskText);
+    void addTask(Column column, String taskText, int index);
 
-    void moveTask(Column oldColumn, int index, Column newColumn) throws IndexOutOfBoundsException;
+    void moveTask(Column oldColumn, int oldIndex, Column newColumn, int newIndex) throws IndexOutOfBoundsException;
 
     void clear(Column column);
 

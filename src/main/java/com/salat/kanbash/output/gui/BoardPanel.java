@@ -40,11 +40,13 @@ public class BoardPanel extends JPanel {
         private final String actionName;
         private final Column oldColumn;
         private final Column newColumn;
+        private final boolean isPrimaryAction;
 
-        public MoveAction(String actionName, Column oldColumn, Column newColumn) {
+        public MoveAction(String actionName, Column oldColumn, Column newColumn, boolean isPrimaryAction) {
             this.actionName = actionName;
             this.oldColumn = oldColumn;
             this.newColumn = newColumn;
+            this.isPrimaryAction = isPrimaryAction;
         }
 
         @Override
@@ -59,7 +61,7 @@ public class BoardPanel extends JPanel {
 
         @Override
         public boolean isPrimaryAction() {
-            return true;
+            return isPrimaryAction;
         }
     }
 
@@ -113,7 +115,8 @@ public class BoardPanel extends JPanel {
                         new MoveAction(
                                 "Pick",
                                 Column.SHOULD_DO,
-                                Column.IN_PROGRESS
+                                Column.IN_PROGRESS,
+                                true
                         ),
                         new EditAction(Column.SHOULD_DO),
                         new RemoveAction(Column.SHOULD_DO)
@@ -126,7 +129,8 @@ public class BoardPanel extends JPanel {
                         new MoveAction(
                                 "Done",
                                 Column.IN_PROGRESS,
-                                Column.DONE
+                                Column.DONE,
+                                true
                         ),
                         new EditAction(Column.IN_PROGRESS),
                         new RemoveAction(Column.IN_PROGRESS)
@@ -212,7 +216,7 @@ public class BoardPanel extends JPanel {
     public interface BoardListener {
         void onNewTask(Column column, String taskText);
 
-        void onMove(Column oldColumn, int index, Column newColumn);
+        void onMove(Column oldColumn, int oldIndex, Column newColumn);
 
         void onClear(Column column);
 

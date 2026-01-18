@@ -72,13 +72,13 @@ public record GUICommander(
         boardPanel.addBoardListener(new BoardPanel.BoardListener() {
             @Override
             public void onNewTask(Column column, String taskText) {
-                contentAdapter.addTask(column, taskText);
+                contentAdapter.addTask(column, taskText, contentAdapter.getTasks(column).size());
                 printer.print();
             }
 
             @Override
-            public void onMove(Column oldColumn, int index, Column newColumn) {
-                contentAdapter.moveTask(oldColumn, index, newColumn);
+            public void onMove(Column oldColumn, int oldIndex, Column newColumn) {
+                contentAdapter.moveTask(oldColumn, oldIndex, newColumn, contentAdapter.getTasks(newColumn).size());
                 printer.print();
             }
 
