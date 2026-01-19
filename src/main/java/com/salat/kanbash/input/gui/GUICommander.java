@@ -95,7 +95,7 @@ public record GUICommander(
                 undoManager.addEdit(new AbstractUndoableEdit() {
                     @Override
                     public void undo() throws CannotUndoException {
-                        contentAdapter.removeTask(column, contentAdapter.getTasks(column).size());
+                        contentAdapter.removeTask(column, contentAdapter.getTasks(column).size() - 1);
                         printer.print();
                     }
                 });
