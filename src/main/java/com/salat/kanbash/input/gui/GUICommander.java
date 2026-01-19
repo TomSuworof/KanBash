@@ -60,6 +60,18 @@ public record GUICommander(
     private void initMenu() {
         menuBar.addMenuBarListener(new MenuBar.MenuBarListener() {
             @Override
+            public void onExit() {
+                System.exit(0);
+            }
+
+            @Override
+            public void onUndo() {
+                if (undoManager.canUndo()) {
+                    undoManager.undo();
+                }
+            }
+
+            @Override
             public void onNumerationChanged(Numeration numeration) {
                 contentAdapter.setNumeration(numeration);
                 printer.print();
@@ -69,13 +81,6 @@ public record GUICommander(
             public void onThemeChanged(Theme newTheme) {
                 contentAdapter.setTheme(newTheme);
                 printer.print();
-            }
-
-            @Override
-            public void onUndo() {
-                if (undoManager.canUndo()) {
-                    undoManager.undo();
-                }
             }
         });
     }

@@ -16,38 +16,14 @@ public class MenuBar extends JMenuBar {
     private final List<MenuBarListener> listeners = new ArrayList<>();
 
     public MenuBar() {
-        JMenu viewMenu = new JMenu("View");
-
-        numerationGroup = new ButtonGroup();
-        JMenu numerationMenu = new JMenu("Numeration");
-        for (var numeration : Numeration.values()) {
-            JRadioButtonMenuItem numerationButtonItem = new JRadioButtonMenuItem(numeration.displayName);
-            numerationButtonItem.addActionListener(
-                    e -> listeners.forEach(
-                            l -> l.onNumerationChanged(numeration)
-                    )
-            );
-            numerationGroup.add(numerationButtonItem);
-            numerationMenu.add(numerationButtonItem);
+        JMenu fileMenu = new JMenu("File");
+        {
+            JMenuItem exitButton = new JMenuItem("Exit");
+            exitButton.addActionListener(e -> listeners.forEach(MenuBarListener::onExit));
+            fileMenu.add(exitButton);
         }
-        viewMenu.add(numerationMenu);
-
-        themeGroup = new ButtonGroup();
-        JMenu themeMenu = new JMenu("Theme");
-        for (var theme : Theme.values()) {
-            JRadioButtonMenuItem themeButtonItem = new JRadioButtonMenuItem(theme.displayName);
-            themeButtonItem.addActionListener(
-                    e -> listeners.forEach(
-                            l -> l.onThemeChanged(theme)
-                    )
-            );
-            themeGroup.add(themeButtonItem);
-            themeMenu.add(themeButtonItem);
-        }
-        viewMenu.add(themeMenu);
 
         JMenu editMenu = new JMenu("Edit");
-
         {
             // Action
 
@@ -74,8 +50,40 @@ public class MenuBar extends JMenuBar {
             );
         }
 
-        add(viewMenu);
+        JMenu viewMenu = new JMenu("View");
+        {
+            numerationGroup = new ButtonGroup();
+            JMenu numerationMenu = new JMenu("Numeration");
+            for (var numeration : Numeration.values()) {
+                JRadioButtonMenuItem numerationButtonItem = new JRadioButtonMenuItem(numeration.displayName);
+                numerationButtonItem.addActionListener(
+                        e -> listeners.forEach(
+                                l -> l.onNumerationChanged(numeration)
+                        )
+                );
+                numerationGroup.add(numerationButtonItem);
+                numerationMenu.add(numerationButtonItem);
+            }
+            viewMenu.add(numerationMenu);
+
+            themeGroup = new ButtonGroup();
+            JMenu themeMenu = new JMenu("Theme");
+            for (var theme : Theme.values()) {
+                JRadioButtonMenuItem themeButtonItem = new JRadioButtonMenuItem(theme.displayName);
+                themeButtonItem.addActionListener(
+                        e -> listeners.forEach(
+                                l -> l.onThemeChanged(theme)
+                        )
+                );
+                themeGroup.add(themeButtonItem);
+                themeMenu.add(themeButtonItem);
+            }
+            viewMenu.add(themeMenu);
+        }
+
+        add(fileMenu);
         add(editMenu);
+        add(viewMenu);
     }
 
     public void setNumeration(Numeration numeration) {
@@ -101,10 +109,12 @@ public class MenuBar extends JMenuBar {
     }
 
     public interface MenuBarListener {
+        void onExit();
+
+        void onUndo();
+
         void onNumerationChanged(Numeration numeration);
 
         void onThemeChanged(Theme newTheme);
-
-        void onUndo();
     }
 }
