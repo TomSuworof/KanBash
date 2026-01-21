@@ -74,7 +74,7 @@ public class BoardPanel extends JPanel {
 
         @Override
         public String getActionName() {
-            return "Edit";
+            return "Edit...";
         }
 
         @Override
@@ -172,7 +172,7 @@ public class BoardPanel extends JPanel {
 
         // Button
 
-        JButton addTaskButton = new JButton("New task");
+        JButton addTaskButton = new JButton("New task...");
         addTaskButton.addActionListener(addTaskAction);
         addTaskButton.setBorderPainted(false);
         addTaskButton.setBackground(Optional.ofNullable(UIManager.getColor("Button.background")).orElse(new Color(0xeeeeee)));
