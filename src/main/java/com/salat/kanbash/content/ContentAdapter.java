@@ -3,7 +3,6 @@ package com.salat.kanbash.content;
 import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.gui.Theme;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +17,7 @@ public interface ContentAdapter {
 
     Theme getTheme();
 
-    Rectangle getLastWindowLocation();
+    WindowState getLastWindowState();
 
     void addTask(Column column, String taskText, int index);
 
@@ -32,5 +31,5 @@ public interface ContentAdapter {
 
     void setTheme(Theme theme);
 
-    void setLastWindowLocation(Rectangle location);
+    void setLastWindowState(WindowState windowState);
 }

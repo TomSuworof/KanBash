@@ -8,6 +8,7 @@ import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.gui.BoardPanel;
 import com.salat.kanbash.output.gui.MenuBar;
 import com.salat.kanbash.output.gui.Theme;
+import com.salat.kanbash.output.gui.WindowStateManager;
 
 import javax.swing.*;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -22,6 +23,7 @@ public record GUICommander(
         UndoManager undoManager,
         MenuBar menuBar,
         BoardPanel boardPanel,
+        WindowStateManager windowStateManager,
         Printer printer
 ) implements Client {
 
@@ -35,12 +37,12 @@ public record GUICommander(
         mainFrame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentMoved(ComponentEvent e) {
-                rememberLocation(mainFrame);
+                windowStateManager.onWindowMoved(mainFrame);
             }
 
             @Override
             public void componentResized(ComponentEvent e) {
-                rememberLocation(mainFrame);
+                windowStateManager.onWindowResized(mainFrame);
             }
         });
 
@@ -50,7 +52,7 @@ public record GUICommander(
         mainFrame.getContentPane().add(boardPanel);
         initBoardPanel();
 
-        resetLocation(mainFrame);
+        windowStateManager.resetWindowState(mainFrame);
 
         printer.print();
         mainFrame.setVisible(true);
@@ -165,20 +167,5 @@ public record GUICommander(
                 });
             }
         });
-    }
-
-    private void resetLocation(JFrame mainFrame) {
-        var lastWindowLocation = contentAdapter.getLastWindowLocation();
-        if (lastWindowLocation == null) {
-            return;
-        }
-        mainFrame.setBounds(lastWindowLocation);
-    }
-
-    private void rememberLocation(JFrame mainFrame) {
-        if (!mainFrame.isVisible()) {
-            return;
-        }
-        contentAdapter.setLastWindowLocation(mainFrame.getBounds());
     }
 }

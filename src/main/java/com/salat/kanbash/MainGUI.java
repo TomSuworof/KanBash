@@ -7,6 +7,7 @@ import com.salat.kanbash.input.gui.GUICommander;
 import com.salat.kanbash.output.gui.BoardPanel;
 import com.salat.kanbash.output.gui.GUIPrinter;
 import com.salat.kanbash.output.gui.MenuBar;
+import com.salat.kanbash.output.gui.WindowStateManager;
 
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
@@ -23,11 +24,14 @@ public class MainGUI {
         MenuBar menuBar = new MenuBar();
         BoardPanel boardPanel = new BoardPanel();
 
+        WindowStateManager windowStateManager = new WindowStateManager(contentAdapter);
+
         Client client = new GUICommander(
                 contentAdapter,
                 undoManager,
                 menuBar,
                 boardPanel,
+                windowStateManager,
                 new GUIPrinter(
                         contentAdapter,
                         menuBar,

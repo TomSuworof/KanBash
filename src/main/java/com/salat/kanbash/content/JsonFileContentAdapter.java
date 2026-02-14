@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.gui.Theme;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -74,8 +73,8 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public Rectangle getLastWindowLocation() {
-        return content.lastWindowLocation;
+    public WindowState getLastWindowState() {
+        return content.lastWindowState;
     }
 
     @Override
@@ -168,8 +167,8 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public void setLastWindowLocation(Rectangle location) {
-        content.lastWindowLocation = location;
+    public void setLastWindowState(WindowState windowState) {
+        content.lastWindowState = windowState;
         update();
     }
 
