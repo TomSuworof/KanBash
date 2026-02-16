@@ -18,9 +18,29 @@ public class MenuBar extends JMenuBar {
     public MenuBar() {
         JMenu fileMenu = new JMenu("File");
         {
+            // Action
+
+            String exitActionName = "exitAction";
+            AbstractAction exitAction = new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    listeners.forEach(MenuBarListener::onExit);
+                }
+            };
+            getActionMap().put(exitActionName, exitAction);
+
+            // Button
+
             JMenuItem exitButton = new JMenuItem("Exit");
-            exitButton.addActionListener(e -> listeners.forEach(MenuBarListener::onExit));
+            exitButton.addActionListener(exitAction);
             fileMenu.add(exitButton);
+
+            // Key binding
+
+            getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()),
+                    exitActionName
+            );
         }
 
         JMenu editMenu = new JMenu("Edit");
