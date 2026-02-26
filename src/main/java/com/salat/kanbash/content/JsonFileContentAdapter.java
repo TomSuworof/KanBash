@@ -1,8 +1,6 @@
 package com.salat.kanbash.content;
 
 import com.google.gson.Gson;
-import com.salat.kanbash.output.common.Numeration;
-import com.salat.kanbash.output.gui.Theme;
 
 import java.io.File;
 import java.io.FileReader;
@@ -37,17 +35,6 @@ public class JsonFileContentAdapter implements ContentAdapter {
     }
 
     @Override
-    public Numeration getNumeration() {
-        return content.numeration;
-    }
-
-    @Override
-    public void setNumeration(Numeration numeration) {
-        content.numeration = numeration;
-        update();
-    }
-
-    @Override
     public List<String> getTasks(Column column) {
         return switch (column) {
             case SHOULD_DO -> Collections.unmodifiableList(content.shouldDoTasks);
@@ -65,16 +52,6 @@ public class JsonFileContentAdapter implements ContentAdapter {
         } else {
             return Optional.of(tasks.get(index));
         }
-    }
-
-    @Override
-    public Theme getTheme() {
-        return content.theme;
-    }
-
-    @Override
-    public WindowState getLastWindowState() {
-        return content.lastWindowState;
     }
 
     @Override
@@ -157,18 +134,6 @@ public class JsonFileContentAdapter implements ContentAdapter {
             default:
                 break;
         }
-        update();
-    }
-
-    @Override
-    public void setTheme(Theme theme) {
-        content.theme = theme;
-        update();
-    }
-
-    @Override
-    public void setLastWindowState(WindowState windowState) {
-        content.lastWindowState = windowState;
         update();
     }
 

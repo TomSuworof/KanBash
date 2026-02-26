@@ -8,6 +8,8 @@ import com.salat.kanbash.output.gui.BoardPanel;
 import com.salat.kanbash.output.gui.GUIPrinter;
 import com.salat.kanbash.output.gui.MenuBar;
 import com.salat.kanbash.output.gui.WindowStateManager;
+import com.salat.kanbash.workspace.JsonFileWorkspaceAdapter;
+import com.salat.kanbash.workspace.WorkspaceAdapter;
 
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
@@ -21,19 +23,23 @@ public class MainGUI {
 
         ContentAdapter contentAdapter = new JsonFileContentAdapter();
 
+        WorkspaceAdapter workspaceAdapter = new JsonFileWorkspaceAdapter();
+
         MenuBar menuBar = new MenuBar();
         BoardPanel boardPanel = new BoardPanel();
 
-        WindowStateManager windowStateManager = new WindowStateManager(contentAdapter);
+        WindowStateManager windowStateManager = new WindowStateManager(workspaceAdapter);
 
         Client client = new GUICommander(
                 contentAdapter,
+                workspaceAdapter,
                 undoManager,
                 menuBar,
                 boardPanel,
                 windowStateManager,
                 new GUIPrinter(
                         contentAdapter,
+                        workspaceAdapter,
                         menuBar,
                         boardPanel
                 )

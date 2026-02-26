@@ -5,18 +5,21 @@ import com.salat.kanbash.content.ContentAdapter;
 import com.salat.kanbash.input.Client;
 import com.salat.kanbash.output.Printer;
 import com.salat.kanbash.output.common.Numeration;
+import com.salat.kanbash.workspace.WorkspaceAdapter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ConsoleCommander implements Client {
-    private final Printer printer;
     private final ContentAdapter contentAdapter;
+    private final WorkspaceAdapter workspaceAdapter;
+    private final Printer printer;
     private boolean toExit = false;
 
-    public ConsoleCommander(ContentAdapter contentAdapter, Printer printer) {
+    public ConsoleCommander(ContentAdapter contentAdapter, WorkspaceAdapter workspaceAdapter, Printer printer) {
         this.contentAdapter = contentAdapter;
+        this.workspaceAdapter = workspaceAdapter;
         this.printer = printer;
     }
 
@@ -112,7 +115,7 @@ public class ConsoleCommander implements Client {
                 }
                 break;
             case "numeration":
-                contentAdapter.setNumeration(numerationFromName(message));
+                workspaceAdapter.setNumeration(numerationFromName(message));
                 break;
             case "exit":
                 toExit = true;

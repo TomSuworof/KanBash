@@ -1,4 +1,4 @@
-package com.salat.kanbash.content;
+package com.salat.kanbash.workspace;
 
 import java.awt.*;
 

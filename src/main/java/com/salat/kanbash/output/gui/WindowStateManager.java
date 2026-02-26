@@ -1,18 +1,18 @@
 package com.salat.kanbash.output.gui;
 
-import com.salat.kanbash.content.ContentAdapter;
-import com.salat.kanbash.content.WindowState;
+import com.salat.kanbash.workspace.WindowState;
+import com.salat.kanbash.workspace.WorkspaceAdapter;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class WindowStateManager {
-    private final ContentAdapter contentAdapter;
+    private final WorkspaceAdapter workspaceAdapter;
 
     private Rectangle lastNormalLocation = null;
 
-    public WindowStateManager(ContentAdapter contentAdapter) {
-        this.contentAdapter = contentAdapter;
+    public WindowStateManager(WorkspaceAdapter workspaceAdapter) {
+        this.workspaceAdapter = workspaceAdapter;
     }
 
     public void onWindowMoved(JFrame mainFrame) {
@@ -40,11 +40,11 @@ public class WindowStateManager {
             windowState.location = lastNormalLocation;
         }
 
-        contentAdapter.setLastWindowState(windowState);
+        workspaceAdapter.setLastWindowState(windowState);
     }
 
     public void resetWindowState(JFrame mainFrame) {
-        var lastWindowState = contentAdapter.getLastWindowState();
+        var lastWindowState = workspaceAdapter.getLastWindowState();
         if (lastWindowState == null || lastWindowState.location == null) {
             return;
         }

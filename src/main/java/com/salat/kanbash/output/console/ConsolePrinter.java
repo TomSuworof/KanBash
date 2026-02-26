@@ -4,34 +4,38 @@ import com.salat.kanbash.content.Column;
 import com.salat.kanbash.content.ContentAdapter;
 import com.salat.kanbash.output.Printer;
 import com.salat.kanbash.output.common.Numeration;
+import com.salat.kanbash.workspace.WorkspaceAdapter;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class ConsolePrinter implements Printer {
-    private static final String WELCOME_MESSAGE = "" +
-            "WELCOME TO KANBASH. Kanban methodology via CLI\n" +
-            "Board has 3 columns: SHOULD DO, IN PROGRESS and DONE\n" +
-            "Supported commands:\n" +
-            "- new 'task' - creates new task in SHOULD DO column\n" +
-            "- pick 'index' - picks i'th task from SHOULD DO and move it to IN PROGRESS\n" +
-            "- done 'index' - picks i'th task from IN PROGRESS and move it to DONE\n" +
-            "- clear 'something' - clears specified column or all columns\n" +
-            "- remove 'something' 'index' - removes specified task from column\n" +
-            " edit 'something' 'index' 'task' - edits specified task in column\n" +
-            "- numeration 'number' or 'hyphen' - changes numeration\n" +
-            "- exit - for exit\n" +
-            "MAKE YOUR PRODUCTIVITY GREAT AGAIN\n";
+    private static final String WELCOME_MESSAGE = """
+            WELCOME TO KANBASH. Kanban methodology via CLI
+            Board has 3 columns: SHOULD DO, IN PROGRESS and DONE
+            Supported commands:
+            - new 'task' - creates new task in SHOULD DO column
+            - pick 'index' - picks i'th task from SHOULD DO and move it to IN PROGRESS
+            - done 'index' - picks i'th task from IN PROGRESS and move it to DONE
+            - clear 'something' - clears specified column or all columns
+            - remove 'something' 'index' - removes specified task from column
+             edit 'something' 'index' 'task' - edits specified task in column
+            - numeration 'number' or 'hyphen' - changes numeration
+            - exit - for exit
+            MAKE YOUR PRODUCTIVITY GREAT AGAIN
+            """;
 
     private static final String delimiter = "----------------------------------------"; // 40 symbols
 
     private final ContentAdapter contentAdapter;
+    private final WorkspaceAdapter workspaceAdapter;
 
-    public ConsolePrinter(ContentAdapter contentAdapter) {
+    public ConsolePrinter(ContentAdapter contentAdapter, WorkspaceAdapter workspaceAdapter) {
         this.contentAdapter = contentAdapter;
+        this.workspaceAdapter = workspaceAdapter;
     }
 
     @Override
@@ -45,14 +49,14 @@ public class ConsolePrinter implements Printer {
     }
 
     private void printWithFormat() {
-        List<String> shouldDoForOutput   = format(contentAdapter.getTasks(Column.SHOULD_DO));
+        List<String> shouldDoForOutput = format(contentAdapter.getTasks(Column.SHOULD_DO));
         List<String> inProgressForOutput = format(contentAdapter.getTasks(Column.IN_PROGRESS));
-        List<String> doneForOutput       = format(contentAdapter.getTasks(Column.DONE));
+        List<String> doneForOutput = format(contentAdapter.getTasks(Column.DONE));
 
-        String shouldDoHeading   = "----------------SHOULD-DO---------------";
+        String shouldDoHeading = "----------------SHOULD-DO---------------";
         String inProgressHeading = "---------------IN-PROGRESS--------------";
-        String doneHeading       = "------------------DONE------------------";
-        String space             = "                                        ";
+        String doneHeading = "------------------DONE------------------";
+        String space = "                                        ";
 
         System.out.println(shouldDoHeading + "+" + inProgressHeading + "+" + doneHeading);
 
@@ -87,7 +91,7 @@ public class ConsolePrinter implements Printer {
     private List<String> format(List<String> tasks) {
         List<String> newTasks;
 
-        if (contentAdapter.getNumeration() == Numeration.NUMBER) {
+        if (workspaceAdapter.getNumeration() == Numeration.NUMBER) {
             AtomicInteger index = new AtomicInteger();
             newTasks = tasks.stream().map(task -> index.getAndIncrement() + ". " + task).collect(Collectors.toList());
         } else {
@@ -114,7 +118,7 @@ public class ConsolePrinter implements Printer {
                     line.append(" ");
                 }
             }
-            while(line.length() < delimiter.length()) {
+            while (line.length() < delimiter.length()) {
                 line.append(" ");
             }
             taskLines.add(line.toString());

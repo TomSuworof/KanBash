@@ -9,6 +9,7 @@ import com.salat.kanbash.output.gui.BoardPanel;
 import com.salat.kanbash.output.gui.MenuBar;
 import com.salat.kanbash.output.gui.Theme;
 import com.salat.kanbash.output.gui.WindowStateManager;
+import com.salat.kanbash.workspace.WorkspaceAdapter;
 
 import javax.swing.*;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 public record GUICommander(
         ContentAdapter contentAdapter,
+        WorkspaceAdapter workspaceAdapter,
         UndoManager undoManager,
         MenuBar menuBar,
         BoardPanel boardPanel,
@@ -56,7 +58,6 @@ public record GUICommander(
 
         printer.print();
         mainFrame.setVisible(true);
-//        printer.printWelcomePage();
     }
 
     private void initMenu() {
@@ -75,13 +76,13 @@ public record GUICommander(
 
             @Override
             public void onNumerationChanged(Numeration numeration) {
-                contentAdapter.setNumeration(numeration);
+                workspaceAdapter.setNumeration(numeration);
                 printer.print();
             }
 
             @Override
             public void onThemeChanged(Theme newTheme) {
-                contentAdapter.setTheme(newTheme);
+                workspaceAdapter.setTheme(newTheme);
                 printer.print();
             }
         });
