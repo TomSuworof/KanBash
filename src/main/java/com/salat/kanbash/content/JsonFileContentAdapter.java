@@ -1,45 +1,22 @@
 package com.salat.kanbash.content;
 
-import com.google.gson.Gson;
+import com.salat.kanbash.storageadapters.JsonFileAdapter;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class JsonFileContentAdapter implements ContentAdapter {
-    private static final String contentFileName = "content.json";
-
-    private File contenFile;
-    private Content content;
-
+public class JsonFileContentAdapter extends JsonFileAdapter<Content> implements ContentAdapter {
     public JsonFileContentAdapter() {
-        try {
-            contenFile = new File(contentFileName);
-            contenFile.createNewFile(); // internally checks if file already exists
-
-            FileReader fileReader = new FileReader(contenFile);
-            content = new Gson().fromJson(fileReader, Content.class);
-            fileReader.close();
-
-            if (content == null) {
-                content = new Content();
-                update();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super("content.json", Content.class, Content::new);
     }
 
     @Override
     public List<String> getTasks(Column column) {
         return switch (column) {
-            case SHOULD_DO -> Collections.unmodifiableList(content.shouldDoTasks);
-            case IN_PROGRESS -> Collections.unmodifiableList(content.inProgressTasks);
-            case DONE -> Collections.unmodifiableList(content.doneTasks);
+            case SHOULD_DO -> Collections.unmodifiableList(data.shouldDoTasks);
+            case IN_PROGRESS -> Collections.unmodifiableList(data.inProgressTasks);
+            case DONE -> Collections.unmodifiableList(data.doneTasks);
             default -> throw new IllegalArgumentException("Cannot return all tasks");
         };
     }
@@ -58,18 +35,18 @@ public class JsonFileContentAdapter implements ContentAdapter {
     public void addTask(Column column, String taskText, int index) {
         switch (column) {
             case SHOULD_DO:
-                content.shouldDoTasks.add(index, taskText);
+                data.shouldDoTasks.add(index, taskText);
                 break;
             case IN_PROGRESS:
-                content.inProgressTasks.add(index, taskText);
+                data.inProgressTasks.add(index, taskText);
                 break;
             case DONE:
-                content.doneTasks.add(index, taskText);
+                data.doneTasks.add(index, taskText);
                 break;
             default:
                 break;
         }
-        update();
+        store();
     }
 
     @Override
@@ -83,66 +60,57 @@ public class JsonFileContentAdapter implements ContentAdapter {
     public void clear(Column column) {
         switch (column) {
             case SHOULD_DO:
-                content.shouldDoTasks.clear();
+                data.shouldDoTasks.clear();
                 break;
             case IN_PROGRESS:
-                content.inProgressTasks.clear();
+                data.inProgressTasks.clear();
                 break;
             case DONE:
-                content.doneTasks.clear();
+                data.doneTasks.clear();
                 break;
             case ALL:
-                content.shouldDoTasks.clear();
-                content.inProgressTasks.clear();
-                content.doneTasks.clear();
+                data.shouldDoTasks.clear();
+                data.inProgressTasks.clear();
+                data.doneTasks.clear();
             default:
                 break;
         }
-        update();
+        store();
     }
 
     @Override
     public void removeTask(Column column, int index) throws NumberFormatException {
         switch (column) {
             case SHOULD_DO:
-                content.shouldDoTasks.remove(index);
+                data.shouldDoTasks.remove(index);
                 break;
             case IN_PROGRESS:
-                content.inProgressTasks.remove(index);
+                data.inProgressTasks.remove(index);
                 break;
             case DONE:
-                content.doneTasks.remove(index);
+                data.doneTasks.remove(index);
                 break;
             default:
                 break;
         }
-        update();
+        store();
     }
 
     @Override
     public void editTask(Column column, int index, String message) {
         switch (column) {
             case SHOULD_DO:
-                content.shouldDoTasks.set(index, message);
+                data.shouldDoTasks.set(index, message);
                 break;
             case IN_PROGRESS:
-                content.inProgressTasks.set(index, message);
+                data.inProgressTasks.set(index, message);
                 break;
             case DONE:
-                content.doneTasks.set(index, message);
+                data.doneTasks.set(index, message);
                 break;
             default:
                 break;
         }
-        update();
-    }
-
-    private void update() {
-        String jsonString = new Gson().toJson(content);
-        try (FileWriter fileWriter = new FileWriter(contenFile, false)) {
-            fileWriter.write(jsonString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        store();
     }
 }

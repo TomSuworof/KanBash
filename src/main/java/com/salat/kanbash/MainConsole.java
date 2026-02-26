@@ -11,8 +11,10 @@ import com.salat.kanbash.workspace.WorkspaceAdapter;
 public class MainConsole {
     public static void main(String[] args) {
         ContentAdapter contentAdapter = new JsonFileContentAdapter();
+        contentAdapter.load();
 
         WorkspaceAdapter workspaceAdapter = new JsonFileWorkspaceAdapter();
+        workspaceAdapter.load();
 
         Client client = new ConsoleCommander(
                 contentAdapter,

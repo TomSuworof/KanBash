@@ -1,8 +1,8 @@
 package com.salat.kanbash;
 
-import com.salat.kanbash.input.Client;
 import com.salat.kanbash.content.ContentAdapter;
 import com.salat.kanbash.content.JsonFileContentAdapter;
+import com.salat.kanbash.input.Client;
 import com.salat.kanbash.input.gui.GUICommander;
 import com.salat.kanbash.output.gui.BoardPanel;
 import com.salat.kanbash.output.gui.GUIPrinter;
@@ -22,8 +22,10 @@ public class MainGUI {
         UndoManager undoManager = new UndoManager();
 
         ContentAdapter contentAdapter = new JsonFileContentAdapter();
+        contentAdapter.load();
 
         WorkspaceAdapter workspaceAdapter = new JsonFileWorkspaceAdapter();
+        workspaceAdapter.load();
 
         MenuBar menuBar = new MenuBar();
         BoardPanel boardPanel = new BoardPanel();

@@ -1,9 +1,11 @@
 package com.salat.kanbash.content;
 
+import com.salat.kanbash.storageadapters.StorageAdapter;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface ContentAdapter {
+public interface ContentAdapter extends StorageAdapter {
     List<String> getTasks(Column column);
 
     Optional<String> getTask(Column column, int index);

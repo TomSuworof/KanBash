@@ -1,77 +1,44 @@
 package com.salat.kanbash.workspace;
 
-import com.google.gson.Gson;
 import com.salat.kanbash.output.common.Numeration;
 import com.salat.kanbash.output.gui.Theme;
+import com.salat.kanbash.storageadapters.JsonFileAdapter;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-public class JsonFileWorkspaceAdapter implements WorkspaceAdapter {
-    private static final String contentFileName = "workspace.json";
-
-    private File workspaceFile;
-    private Workspace workspace;
-
+public class JsonFileWorkspaceAdapter extends JsonFileAdapter<Workspace> implements WorkspaceAdapter {
     public JsonFileWorkspaceAdapter() {
-        try {
-            workspaceFile = new File(contentFileName);
-            workspaceFile.createNewFile(); // internally checks if file already exists
-
-            FileReader fileReader = new FileReader(workspaceFile);
-            workspace = new Gson().fromJson(fileReader, Workspace.class);
-            fileReader.close();
-
-            if (workspace == null) {
-                workspace = new Workspace();
-                update();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super("workspace.json", Workspace.class, Workspace::new);
     }
 
     @Override
     public Numeration getNumeration() {
-        return workspace.numeration;
+        return data.numeration;
     }
 
     @Override
     public Theme getTheme() {
-        return workspace.theme;
+        return data.theme;
     }
 
     @Override
     public WindowState getLastWindowState() {
-        return workspace.lastWindowState;
+        return data.lastWindowState;
     }
 
     @Override
     public void setNumeration(Numeration numeration) {
-        workspace.numeration = numeration;
-        update();
+        data.numeration = numeration;
+        store();
     }
 
     @Override
     public void setTheme(Theme theme) {
-        workspace.theme = theme;
-        update();
+        data.theme = theme;
+        store();
     }
 
     @Override
     public void setLastWindowState(WindowState windowState) {
-        workspace.lastWindowState = windowState;
-        update();
-    }
-
-    private void update() {
-        String jsonString = new Gson().toJson(workspace);
-        try (FileWriter fileWriter = new FileWriter(workspaceFile, false)) {
-            fileWriter.write(jsonString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        data.lastWindowState = windowState;
+        store();
     }
 }
