@@ -18,7 +18,7 @@ public class ColumnPanel extends JPanel {
     public interface ColumnItemAction {
         String getActionName();
 
-        void execute(int index);
+        void execute(int index, String taskText);
 
         default boolean isPrimaryAction() {
             return false;
@@ -116,7 +116,7 @@ public class ColumnPanel extends JPanel {
                         columnItemActions.stream()
                                 .filter(ColumnItemAction::isPrimaryAction)
                                 .findFirst()
-                                .ifPresent(action -> action.execute(index));
+                                .ifPresent(action -> action.execute(index, item));
                     }
                 }
             });
@@ -124,7 +124,7 @@ public class ColumnPanel extends JPanel {
             JPopupMenu menu = new JPopupMenu();
             for (var columnItemAction : columnItemActions) {
                 JMenuItem menuItem = new JMenuItem(columnItemAction.getActionName());
-                menuItem.addActionListener(e -> columnItemAction.execute(index));
+                menuItem.addActionListener(e -> columnItemAction.execute(index, item));
                 menu.add(menuItem);
             }
             itemPanel.setComponentPopupMenu(menu);

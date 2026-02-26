@@ -55,7 +55,7 @@ public class BoardPanel extends JPanel {
         }
 
         @Override
-        public void execute(int index) {
+        public void execute(int index, String taskText) {
             listeners.forEach(l -> l.onMove(oldColumn, index, newColumn));
         }
 
@@ -78,12 +78,12 @@ public class BoardPanel extends JPanel {
         }
 
         @Override
-        public void execute(int index) {
-            String taskText = JOptionPane.showInputDialog("New task text");
-            if (taskText == null) {
+        public void execute(int index, String taskText) {
+            String newTaskText = JOptionPane.showInputDialog("New task text", taskText);
+            if (newTaskText == null) {
                 return;
             }
-            listeners.forEach(l -> l.onEdit(column, index, taskText));
+            listeners.forEach(l -> l.onEdit(column, index, newTaskText));
         }
     }
 
@@ -100,7 +100,7 @@ public class BoardPanel extends JPanel {
         }
 
         @Override
-        public void execute(int index) {
+        public void execute(int index, String taskText) {
             listeners.forEach(l -> l.onRemove(column, index));
         }
     }
